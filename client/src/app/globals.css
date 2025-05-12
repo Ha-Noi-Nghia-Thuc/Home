@@ -2,146 +2,105 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer base {
   :root {
+    /* Dải màu 1: Trí Tuệ & Di Sản - Chế độ Sáng */
+    --background: 30 67% 94.1%; /* Trắng ngà (#FAF0E6) */
+    --foreground: 207 20% 26.1%; /* Xám đậm (#36454F) */
 
-    --background: 0 0% 100%;
+    --card: 30 60% 96%; /* Trắng ngà - hơi khác biệt cho card */
+    --card-foreground: 207 20% 26.1%; /* Xám đậm */
 
-    --foreground: 0 0% 3.9%;
+    --popover: 30 60% 97%; /* Trắng ngà - cho popover */
+    --popover-foreground: 207 20% 26.1%; /* Xám đậm */
 
-    --card: 0 0% 100%;
+    --primary: 180 100% 15.7%; /* Xanh cổ vịt đậm (#005050) */
+    --primary-foreground: 30 67% 94.1%; /* Trắng ngà - cho chữ trên nền primary */
 
-    --card-foreground: 0 0% 3.9%;
+    --secondary: 45 88% 38.2%; /* Vàng đất (#B8860B) */
+    --secondary-foreground: 30 67% 94.1%; /* Trắng ngà - cho chữ trên nền secondary */
 
-    --popover: 0 0% 100%;
+    --muted: 30 40% 90%; /* Trắng ngà/Xám nhạt hơn cho text phụ */
+    --muted-foreground: 207 15% 45%; /* Xám đậm nhạt hơn */
 
-    --popover-foreground: 0 0% 3.9%;
+    --accent: 20 100% 40%; /* Đỏ đất nung (#CC5500) */
+    --accent-foreground: 30 67% 94.1%; /* Trắng ngà - cho chữ trên nền accent */
 
-    --primary: 0 0% 9%;
-
-    --primary-foreground: 0 0% 98%;
-
-    --secondary: 0 0% 96.1%;
-
-    --secondary-foreground: 0 0% 9%;
-
-    --muted: 0 0% 96.1%;
-
-    --muted-foreground: 0 0% 45.1%;
-
-    --accent: 0 0% 96.1%;
-
-    --accent-foreground: 0 0% 9%;
-
-    --destructive: 0 84.2% 60.2%;
-
+    --destructive: 0 84.2% 60.2%; /* Giữ nguyên màu cảnh báo tiêu chuẩn */
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 89.8%;
+    --border: 30 30% 88%; /* Màu viền dựa trên màu nền */
+    --input: 30 30% 90%; /* Màu input dựa trên màu nền */
+    --ring: 180 100% 25.7%; /* Xanh cổ vịt đậm hơn một chút cho focus ring */
 
-    --input: 0 0% 89.8%;
+    --radius: 0.5rem;
 
-    --ring: 0 0% 3.9%;
+    /* Sidebar - Chế độ Sáng */
+    --sidebar-background: 30 50% 96%; /* Trắng ngà, hơi khác biệt cho sidebar */
+    --sidebar-foreground: 207 20% 26.1%; /* Xám đậm */
+    --sidebar-primary: 180 100% 15.7%; /* Xanh cổ vịt đậm - cho mục active */
+    --sidebar-primary-foreground: 30 67% 94.1%; /* Trắng ngà */
+    --sidebar-accent: 45 88% 38.2%; /* Vàng đất - cho điểm nhấn phụ */
+    --sidebar-accent-foreground: 30 67% 94.1%; /* Trắng ngà */
+    --sidebar-border: 30 30% 88%;
+    --sidebar-ring: 180 100% 25.7%;
 
+    /* Chart colors can be adjusted later if needed to fit the new palette */
     --chart-1: 12 76% 61%;
-
     --chart-2: 173 58% 39%;
-
     --chart-3: 197 37% 24%;
-
     --chart-4: 43 74% 66%;
-
     --chart-5: 27 87% 67%;
+  }
 
-    --radius: 0.5rem
-  ;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%}
   .dark {
+    /* Dải màu 1: Trí Tuệ & Di Sản - Chế độ Tối */
+    --background: 180 25% 10%; /* Xanh rêu rất đậm, gần đen */
+    --foreground: 30 60% 90%; /* Trắng ngà (hơi giảm độ sáng cho dễ đọc) */
 
-    --background: 0 0% 3.9%;
+    --card: 180 25% 13%; /* Nền card tối hơn một chút */
+    --card-foreground: 30 60% 90%;
 
-    --foreground: 0 0% 98%;
+    --popover: 180 25% 8%; /* Nền popover tối hơn */
+    --popover-foreground: 30 60% 90%;
 
-    --card: 0 0% 3.9%;
+    --primary: 180 70% 38%; /* Xanh cổ vịt sáng hơn cho dark mode */
+    --primary-foreground: 30 60% 90%; /* Trắng ngà (chữ trên nền primary) */
 
-    --card-foreground: 0 0% 98%;
+    --secondary: 45 70% 55%; /* Vàng đất sáng hơn cho dark mode */
+    --secondary-foreground: 180 25% 10%; /* Chữ màu nền tối trên secondary */
 
-    --popover: 0 0% 3.9%;
+    --muted: 180 15% 25%; /* Xám tối hơn cho text phụ */
+    --muted-foreground: 30 30% 70%; /* Trắng ngà/Xám nhạt hơn */
 
-    --popover-foreground: 0 0% 98%;
+    --accent: 0 70% 60%; /* Đỏ đất nung sáng hơn, ví dụ #E57373 */
+    --accent-foreground: 180 25% 10%; /* Chữ màu nền tối trên accent */
 
-    --primary: 0 0% 98%;
-
-    --primary-foreground: 0 0% 9%;
-
-    --secondary: 0 0% 14.9%;
-
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 0 0% 14.9%;
-
-    --muted-foreground: 0 0% 63.9%;
-
-    --accent: 0 0% 14.9%;
-
-    --accent-foreground: 0 0% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-
+    --destructive: 0 70% 55%; /* Màu cảnh báo sáng hơn cho dark mode */
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 14.9%;
+    --border: 180 20% 20%; /* Màu viền tối */
+    --input: 180 20% 23%; /* Màu input tối */
+    --ring: 180 70% 45%; /* Xanh cổ vịt sáng hơn cho focus ring */
 
-    --input: 0 0% 14.9%;
+    /* Sidebar - Chế độ Tối */
+    --sidebar-background: 180 25% 8%; /* Nền sidebar tối hơn main bg */
+    --sidebar-foreground: 30 60% 90%; /* Trắng ngà */
+    --sidebar-primary: 180 70% 38%; /* Xanh cổ vịt sáng hơn */
+    --sidebar-primary-foreground: 30 60% 90%; /* Trắng ngà */
+    --sidebar-accent: 45 70% 55%; /* Vàng đất sáng hơn */
+    --sidebar-accent-foreground: 180 25% 10%; /* Chữ màu nền tối */
+    --sidebar-border: 180 20% 18%;
+    --sidebar-ring: 180 70% 45%;
 
-    --ring: 0 0% 83.1%;
-
+    /* Chart colors can be adjusted later if needed to fit the new palette */
     --chart-1: 220 70% 50%;
-
     --chart-2: 160 60% 45%;
-
     --chart-3: 30 80% 55%;
-
     --chart-4: 280 65% 60%;
-
-    --chart-5: 340 75% 55%
-  ;
-
-    --sidebar-background: 240 5.9% 10%;
-
-    --sidebar-foreground: 240 4.8% 95.9%;
-
-    --sidebar-primary: 224.3 76.3% 48%;
-
-    --sidebar-primary-foreground: 0 0% 100%;
-
-    --sidebar-accent: 240 3.7% 15.9%;
-
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-
-    --sidebar-border: 240 3.7% 15.9%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%}
+    --chart-5: 340 75% 55%;
+  }
 }
-
-
 
 @layer base {
   * {
@@ -149,5 +108,19 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-open-sans), ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+      "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+      "Segoe UI Symbol", "Noto Color Emoji"; /* Sử dụng CSS variable và chuỗi font dự phòng của Tailwind */
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-eb-garamond), ui-serif, Georgia, Cambria,
+      "Times New Roman", Times, serif; /* Sử dụng CSS variable và chuỗi font dự phòng của Tailwind */
   }
 }
