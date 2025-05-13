@@ -1,11 +1,19 @@
+import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
+import { NAVBAR_HEIGHT } from "@/lib/constants";
 import React from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
-      <main className="h-full flex w-full flex-col">{children}</main>
+      <main
+        className="flex-grow w-full flex flex-col"
+        style={{ paddingTop: `${NAVBAR_HEIGHT}px` }}
+      >
+        {children}
+      </main>
+      <Footer />
     </div>
   );
 };

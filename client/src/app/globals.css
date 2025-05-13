@@ -1,126 +1,110 @@
+/* globals.css - Lam Tri Thức & Vàng Di Sản (Cải thiện) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    /* Dải màu 1: Trí Tuệ & Di Sản - Chế độ Sáng */
-    --background: 30 67% 94.1%; /* Trắng ngà (#FAF0E6) */
-    --foreground: 207 20% 26.1%; /* Xám đậm (#36454F) */
-
-    --card: 30 60% 96%; /* Trắng ngà - hơi khác biệt cho card */
-    --card-foreground: 207 20% 26.1%; /* Xám đậm */
-
-    --popover: 30 60% 97%; /* Trắng ngà - cho popover */
-    --popover-foreground: 207 20% 26.1%; /* Xám đậm */
-
-    --primary: 180 100% 15.7%; /* Xanh cổ vịt đậm (#005050) */
-    --primary-foreground: 30 67% 94.1%; /* Trắng ngà - cho chữ trên nền primary */
-
-    --secondary: 45 88% 38.2%; /* Vàng đất (#B8860B) */
-    --secondary-foreground: 30 67% 94.1%; /* Trắng ngà - cho chữ trên nền secondary */
-
-    --muted: 30 40% 90%; /* Trắng ngà/Xám nhạt hơn cho text phụ */
-    --muted-foreground: 207 15% 45%; /* Xám đậm nhạt hơn */
-
-    --accent: 20 100% 40%; /* Đỏ đất nung (#CC5500) */
-    --accent-foreground: 30 67% 94.1%; /* Trắng ngà - cho chữ trên nền accent */
-
-    --destructive: 0 84.2% 60.2%; /* Giữ nguyên màu cảnh báo tiêu chuẩn */
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 30 30% 88%; /* Màu viền dựa trên màu nền */
-    --input: 30 30% 90%; /* Màu input dựa trên màu nền */
-    --ring: 180 100% 25.7%; /* Xanh cổ vịt đậm hơn một chút cho focus ring */
-
-    --radius: 0.5rem;
-
-    /* Sidebar - Chế độ Sáng */
-    --sidebar-background: 30 50% 96%; /* Trắng ngà, hơi khác biệt cho sidebar */
-    --sidebar-foreground: 207 20% 26.1%; /* Xám đậm */
-    --sidebar-primary: 180 100% 15.7%; /* Xanh cổ vịt đậm - cho mục active */
-    --sidebar-primary-foreground: 30 67% 94.1%; /* Trắng ngà */
-    --sidebar-accent: 45 88% 38.2%; /* Vàng đất - cho điểm nhấn phụ */
-    --sidebar-accent-foreground: 30 67% 94.1%; /* Trắng ngà */
-    --sidebar-border: 30 30% 88%;
-    --sidebar-ring: 180 100% 25.7%;
-
-    /* Chart colors can be adjusted later if needed to fit the new palette */
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-  }
-
-  .dark {
-    /* Dải màu 1: Trí Tuệ & Di Sản - Chế độ Tối */
-    --background: 180 25% 10%; /* Xanh rêu rất đậm, gần đen */
-    --foreground: 30 60% 90%; /* Trắng ngà (hơi giảm độ sáng cho dễ đọc) */
-
-    --card: 180 25% 13%; /* Nền card tối hơn một chút */
-    --card-foreground: 30 60% 90%;
-
-    --popover: 180 25% 8%; /* Nền popover tối hơn */
-    --popover-foreground: 30 60% 90%;
-
-    --primary: 180 70% 38%; /* Xanh cổ vịt sáng hơn cho dark mode */
-    --primary-foreground: 30 60% 90%; /* Trắng ngà (chữ trên nền primary) */
-
-    --secondary: 45 70% 55%; /* Vàng đất sáng hơn cho dark mode */
-    --secondary-foreground: 180 25% 10%; /* Chữ màu nền tối trên secondary */
-
-    --muted: 180 15% 25%; /* Xám tối hơn cho text phụ */
-    --muted-foreground: 30 30% 70%; /* Trắng ngà/Xám nhạt hơn */
-
-    --accent: 0 70% 60%; /* Đỏ đất nung sáng hơn, ví dụ #E57373 */
-    --accent-foreground: 180 25% 10%; /* Chữ màu nền tối trên accent */
-
-    --destructive: 0 70% 55%; /* Màu cảnh báo sáng hơn cho dark mode */
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 180 20% 20%; /* Màu viền tối */
-    --input: 180 20% 23%; /* Màu input tối */
-    --ring: 180 70% 45%; /* Xanh cổ vịt sáng hơn cho focus ring */
-
-    /* Sidebar - Chế độ Tối */
-    --sidebar-background: 180 25% 8%; /* Nền sidebar tối hơn main bg */
-    --sidebar-foreground: 30 60% 90%; /* Trắng ngà */
-    --sidebar-primary: 180 70% 38%; /* Xanh cổ vịt sáng hơn */
-    --sidebar-primary-foreground: 30 60% 90%; /* Trắng ngà */
-    --sidebar-accent: 45 70% 55%; /* Vàng đất sáng hơn */
-    --sidebar-accent-foreground: 180 25% 10%; /* Chữ màu nền tối */
-    --sidebar-border: 180 20% 18%;
-    --sidebar-ring: 180 70% 45%;
-
-    /* Chart colors can be adjusted later if needed to fit the new palette */
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body,
+#root,
+.app {
+  height: 100%;
+  width: 100%;
+  @apply text-sm font-body;
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-open-sans), ui-sans-serif, system-ui, -apple-system,
-      BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
-      "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-      "Segoe UI Symbol", "Noto Color Emoji"; /* Sử dụng CSS variable và chuỗi font dự phòng của Tailwind */
+  :root {
+    /* Chế độ Sáng - Cải thiện */
+    --background: 210 25% 99%; /* Trắng rất sạch, hơi lạnh nhẹ */
+    --foreground: 215 18% 20%; /* Xám đen, tương phản tốt */
+
+    --card: 0 0% 100%; /* Trắng tinh */
+    --card-foreground: 215 18% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 18% 20%;
+
+    /* Primary: Xanh Lam rõ ràng, mạnh mẽ hơn */
+    --primary: 210 45% 52%; /* Hue 210, Sat 45%, Light 52% */
+    --primary-foreground: 210 20% 98%; /* Trắng phớt xanh rất nhạt */
+
+    /* Secondary: Vàng Ochre/Cát tinh tế hơn */
+    --secondary: 38 48% 65%; /* Hue 38, Sat 48%, Light 65% */
+    --secondary-foreground: 35 25% 20%; /* Nâu đậm, đủ tương phản */
+
+    --muted: 210 12% 95%; /* Xám nhạt (lạnh) */
+    --muted-foreground: 210 10% 60%; /* Xám vừa (lạnh) */
+
+    /* Accent: Biến thể sáng của Primary mới */
+    --accent: 210 50% 70%;
+    --accent-foreground: 210 15% 15%;
+
+    --destructive: 0 70% 58%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 15% 92%; /* Viền xám nhạt hơn */
+    --input: 210 20% 97%; /* Nền input trắng hơi xanh */
+    --ring: 210 45% 55%; /* Màu focus ring (dùng Primary mới) */
+
+    --radius: 0.5rem;
+
+    /* Sidebar - Đồng bộ */
+    --sidebar-background: 210 20% 97%;
+    --sidebar-foreground: 215 18% 20%;
+    --sidebar-primary: 210 45% 52%;
+    --sidebar-primary-foreground: 210 20% 98%;
+    --sidebar-accent: 38 48% 65%; /* Dùng Secondary làm accent sidebar */
+    --sidebar-accent-foreground: 35 25% 20%;
+    --sidebar-border: 210 15% 90%;
+    --sidebar-ring: 210 45% 55%;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-eb-garamond), ui-serif, Georgia, Cambria,
-      "Times New Roman", Times, serif; /* Sử dụng CSS variable và chuỗi font dự phòng của Tailwind */
+  .dark {
+    /* Chế độ Tối - Cải thiện */
+    --background: 215 12% 10%; /* Xám xanh đen sâu hơn */
+    --foreground: 210 15% 90%; /* Xám trắng nhạt, rõ ràng */
+
+    --card: 215 12% 14%;
+    --card-foreground: 210 15% 90%;
+
+    --popover: 215 12% 14%;
+    --popover-foreground: 210 15% 90%;
+
+    /* Primary: Xanh Lam cho dark mode (cải thiện) */
+    --primary: 210 50% 72%; /* Sáng hơn, bão hòa hơn */
+    --primary-foreground: 210 15% 15%; /* Xanh đen rất đậm */
+
+    /* Secondary: Vàng Ochre/Cát cho dark mode (cải thiện) */
+    --secondary: 38 50% 75%; /* Sáng hơn, tinh tế */
+    --secondary-foreground: 35 20% 12%; /* Nâu rất đậm */
+
+    --muted: 215 10% 22%; /* Xám đậm */
+    --muted-foreground: 210 10% 68%; /* Xám nhạt hơn */
+
+    /* Accent: Biến thể sáng của Primary dark mới */
+    --accent: 210 55% 85%;
+    --accent-foreground: 210 10% 8%;
+
+    --destructive: 0 65% 65%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 215 10% 25%; /* Viền xám đậm */
+    --input: 215 10% 18%; /* Nền input tối hơn */
+    --ring: 210 50% 75%; /* Màu focus ring (dùng Primary dark mới) */
+
+    /* Sidebar - Đồng bộ dark mode */
+    --sidebar-background: 215 12% 8%;
+    --sidebar-foreground: 210 15% 90%;
+    --sidebar-primary: 210 50% 72%;
+    --sidebar-primary-foreground: 210 15% 15%;
+    --sidebar-accent: 38 50% 75%;
+    --sidebar-accent-foreground: 35 20% 12%;
+    --sidebar-border: 215 10% 20%;
+    --sidebar-ring: 210 50% 75%;
   }
 }
