@@ -25,43 +25,43 @@ const config: Config = {
           foreground: "hsl(var(--popover-foreground))",
         },
         primary: {
-          // Sắc độ Xanh Lam Rõ Ràng (Dựa trên HSL ~210, 45%, 52%) - Cải thiện
-          "50": "#f5f8fe", // hsl(210, 40%, 97%)
-          "100": "#e9effc", // hsl(210, 42%, 94%)
-          "200": "#cfe0f9", // hsl(210, 44%, 86%)
-          "300": "#a9c7f3", // hsl(210, 45%, 75%)
-          "400": "#80acf0", // hsl(210, 45%, 64%)
-          "500": "#5791e0", // hsl(210, 45%, 52%) - Gần với DEFAULT
-          DEFAULT: "hsl(var(--primary))", // Tham chiếu --primary (hsl(210, 45%, 52%))
-          foreground: "hsl(var(--primary-foreground))", // Tham chiếu --primary-foreground
-          "600": "#447fd5", // hsl(210, 48%, 46%)
-          "700": "#336ac8", // hsl(210, 50%, 39%)
-          "800": "#2553a7", // hsl(210, 55%, 32%)
-          "900": "#1a3e85", // hsl(210, 60%, 25%)
-          "950": "#112b63", // hsl(210, 65%, 18%)
+          // Dải màu xám cho Primary (trung tâm quanh ~25% lightness)
+          "50": "#f7f7f7", // hsl(0, 0%, 97%)
+          "100": "#e3e3e3", // hsl(0, 0%, 89%)
+          "200": "#c9c9c9", // hsl(0, 0%, 79%)
+          "300": "#a6a6a6", // hsl(0, 0%, 65%)
+          "400": "#808080", // hsl(0, 0%, 50%) // Có thể dùng làm base cho secondary
+          "500": "#666666", // hsl(0, 0%, 40%)
+          DEFAULT: "hsl(var(--primary))", // Sẽ là hsl(0, 0%, 25%) cho light, hsl(0, 0%, 80%) cho dark
+          foreground: "hsl(var(--primary-foreground))",
+          "600": "#4d4d4d", // hsl(0, 0%, 30%)
+          "700": "#333333", // hsl(0, 0%, 20%)
+          "800": "#262626", // hsl(0, 0%, 15%)
+          "900": "#1c1c1c", // hsl(0, 0%, 11%)
+          "950": "#0d0d0d", // hsl(0, 0%, 5%)
         },
         secondary: {
-          // Sắc độ Vàng Ochre/Cát Tinh Tế (Dựa trên HSL ~38, 48%, 65%) - Cải thiện
-          "50": "#fdfaf6", // hsl(38, 40%, 98%)
-          "100": "#fbf3ea", // hsl(38, 45%, 95%)
-          "200": "#f6e8d3", // hsl(38, 48%, 88%)
-          "300": "#f0d8b3", // hsl(38, 48%, 78%)
-          "400": "#e8c38c", // hsl(38, 48%, 65%) - Gần với DEFAULT
-          DEFAULT: "hsl(var(--secondary))", // Tham chiếu --secondary (hsl(38, 48%, 65%))
-          foreground: "hsl(var(--secondary-foreground))", // Tham chiếu --secondary-foreground
-          "500": "#e0b370", // hsl(38, 50%, 58%)
-          "600": "#d69e54", // hsl(38, 55%, 50%)
-          "700": "#c3873a", // hsl(38, 60%, 42%)
-          "800": "#b07126", // hsl(38, 65%, 35%)
-          "900": "#985d19", // hsl(38, 70%, 28%)
-          "950": "#7f490f", // hsl(38, 75%, 21%)
+          // Dải màu xám cho Secondary (trung tâm quanh ~50% lightness)
+          "50": "#fafafa", // hsl(0, 0%, 98%)
+          "100": "#f0f0f0", // hsl(0, 0%, 94%)
+          "200": "#dedede", // hsl(0, 0%, 87%)
+          "300": "#c2c2c2", // hsl(0, 0%, 76%)
+          "400": "#a3a3a3", // hsl(0, 0%, 64%)
+          DEFAULT: "hsl(var(--secondary))", // Sẽ là hsl(0, 0%, 50%) cho light, hsl(0, 0%, 40%) cho dark
+          foreground: "hsl(var(--secondary-foreground))",
+          "500": "#808080", // hsl(0, 0%, 50%) // Trùng với DEFAULT của nó trong light mode
+          "600": "#757575", // hsl(0, 0%, 46%)
+          "700": "#616161", // hsl(0, 0%, 38%)
+          "800": "#4d4d4d", // hsl(0, 0%, 30%)
+          "900": "#3b3b3b", // hsl(0, 0%, 23%)
+          "950": "#212121", // hsl(0, 0%, 13%)
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
+          DEFAULT: "hsl(var(--accent))", // Xanh cổ vịt
           foreground: "hsl(var(--accent-foreground))",
         },
         destructive: {
@@ -69,12 +69,12 @@ const config: Config = {
           foreground: "hsl(var(--destructive-foreground))",
         },
         chart: {
-          // Placeholder
-          "1": "hsl(var(--chart-1, 210 45% 52%))", // Primary
-          "2": "hsl(var(--chart-2, 38 48% 65%))", // Secondary
-          "3": "hsl(var(--chart-3, 210 50% 70%))", // Accent
-          "4": "hsl(var(--chart-4, 210 48% 46%))", // Primary-600
-          "5": "hsl(var(--chart-5, 38 55% 50%))", // Secondary-600
+          // Giữ nguyên màu chart hiện tại, bạn có thể điều chỉnh nếu muốn
+          "1": "hsl(var(--chart-1, 210 45% 52%))",
+          "2": "hsl(var(--chart-2, 38 48% 65%))",
+          "3": "hsl(var(--chart-3, 210 50% 70%))",
+          "4": "hsl(var(--chart-4, 210 48% 46%))",
+          "5": "hsl(var(--chart-5, 38 55% 50%))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

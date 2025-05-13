@@ -1,4 +1,3 @@
-/* globals.css - Lam Tri Thức & Vàng Di Sản (Cải thiện) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,103 +7,95 @@
 *::after {
   box-sizing: border-box;
 }
+
 html,
 body,
 #root,
 .app {
-  height: 100%;
-  width: 100%;
-  @apply text-sm font-body;
+  @apply h-full w-full text-sm font-body;
 }
 
 @layer base {
   :root {
-    /* Chế độ Sáng - Cải thiện */
-    --background: 210 25% 99%; /* Trắng rất sạch, hơi lạnh nhẹ */
-    --foreground: 215 18% 20%; /* Xám đen, tương phản tốt */
+    --background: 0 0% 99%; /* Gần trắng */
+    --foreground: 0 0% 10%; /* Gần đen */
 
-    --card: 0 0% 100%; /* Trắng tinh */
-    --card-foreground: 215 18% 20%;
+    --card: 0 0% 100%; /* Trắng */
+    --card-foreground: 0 0% 10%; /* Gần đen */
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 18% 20%;
+    --popover-foreground: 0 0% 10%;
 
-    /* Primary: Xanh Lam rõ ràng, mạnh mẽ hơn */
-    --primary: 210 45% 52%; /* Hue 210, Sat 45%, Light 52% */
-    --primary-foreground: 210 20% 98%; /* Trắng phớt xanh rất nhạt */
+    --primary: 0 0% 25%; /* Xám đậm */
+    --primary-foreground: 0 0% 95%; /* Trắng ngà / Xám rất nhạt */
 
-    /* Secondary: Vàng Ochre/Cát tinh tế hơn */
-    --secondary: 38 48% 65%; /* Hue 38, Sat 48%, Light 65% */
-    --secondary-foreground: 35 25% 20%; /* Nâu đậm, đủ tương phản */
+    --secondary: 0 0% 50%; /* Xám trung tính */
+    --secondary-foreground: 0 0% 15%; /* Đen/Xám đậm cho nền xám trung tính */
 
-    --muted: 210 12% 95%; /* Xám nhạt (lạnh) */
-    --muted-foreground: 210 10% 60%; /* Xám vừa (lạnh) */
+    --muted: 0 0% 94%; /* Xám rất nhạt */
+    --muted-foreground: 0 0% 45%; /* Xám vừa */
 
-    /* Accent: Biến thể sáng của Primary mới */
-    --accent: 210 50% 70%;
-    --accent-foreground: 210 15% 15%;
+    --accent: 190 45% 35%; /* Xanh cổ vịt đậm */
+    --accent-foreground: 190 30% 95%; /* Trắng ngà cho nền accent */
 
-    --destructive: 0 70% 58%;
+    --destructive: 0 70% 55%; /* Giữ nguyên màu đỏ hoặc điều chỉnh nhẹ nếu muốn */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 15% 92%; /* Viền xám nhạt hơn */
-    --input: 210 20% 97%; /* Nền input trắng hơi xanh */
-    --ring: 210 45% 55%; /* Màu focus ring (dùng Primary mới) */
+    --border: 0 0% 88%; /* Xám nhạt */
+    --input: 0 0% 97%; /* Xám rất nhạt, hơi khác background */
+    --ring: 190 45% 40%; /* Xanh cổ vịt cho ring, hơi sáng hơn accent */
 
-    --radius: 0.5rem;
+    --radius: 0.5rem; /* Giữ nguyên hoặc điều chỉnh theo ý muốn */
 
-    /* Sidebar - Đồng bộ */
-    --sidebar-background: 210 20% 97%;
-    --sidebar-foreground: 215 18% 20%;
-    --sidebar-primary: 210 45% 52%;
-    --sidebar-primary-foreground: 210 20% 98%;
-    --sidebar-accent: 38 48% 65%; /* Dùng Secondary làm accent sidebar */
-    --sidebar-accent-foreground: 35 25% 20%;
-    --sidebar-border: 210 15% 90%;
-    --sidebar-ring: 210 45% 55%;
+    /* Sidebar - Có thể tùy chỉnh để khác biệt hoặc đồng bộ với theme chính */
+    --sidebar-background: 0 0% 97%; /* Xám rất nhạt, tương tự input */
+    --sidebar-foreground: 0 0% 10%;
+    --sidebar-primary: 0 0% 25%; /* Xám đậm, giống primary chính */
+    --sidebar-primary-foreground: 0 0% 95%;
+    --sidebar-accent: 190 45% 35%; /* Xanh cổ vịt đậm, giống accent chính */
+    --sidebar-accent-foreground: 190 30% 95%;
+    --sidebar-border: 0 0% 85%;
+    --sidebar-ring: 190 45% 40%;
   }
 
   .dark {
-    /* Chế độ Tối - Cải thiện */
-    --background: 215 12% 10%; /* Xám xanh đen sâu hơn */
-    --foreground: 210 15% 90%; /* Xám trắng nhạt, rõ ràng */
+    --background: 0 0% 10%; /* Gần đen */
+    --foreground: 0 0% 92%; /* Xám rất nhạt */
 
-    --card: 215 12% 14%;
-    --card-foreground: 210 15% 90%;
+    --card: 0 0% 14%; /* Xám đậm hơn background */
+    --card-foreground: 0 0% 92%;
 
-    --popover: 215 12% 14%;
-    --popover-foreground: 210 15% 90%;
+    --popover: 0 0% 14%;
+    --popover-foreground: 0 0% 92%;
 
-    /* Primary: Xanh Lam cho dark mode (cải thiện) */
-    --primary: 210 50% 72%; /* Sáng hơn, bão hòa hơn */
-    --primary-foreground: 210 15% 15%; /* Xanh đen rất đậm */
+    /* Trong dark mode, primary thường sáng hơn để nổi bật trên nền tối */
+    --primary: 0 0% 80%; /* Xám sáng */
+    --primary-foreground: 0 0% 10%; /* Đen/Xám rất đậm */
 
-    /* Secondary: Vàng Ochre/Cát cho dark mode (cải thiện) */
-    --secondary: 38 50% 75%; /* Sáng hơn, tinh tế */
-    --secondary-foreground: 35 20% 12%; /* Nâu rất đậm */
+    --secondary: 0 0% 40%; /* Xám đậm vừa */
+    --secondary-foreground: 0 0% 90%; /* Xám nhạt */
 
-    --muted: 215 10% 22%; /* Xám đậm */
-    --muted-foreground: 210 10% 68%; /* Xám nhạt hơn */
+    --muted: 0 0% 20%; /* Xám đậm */
+    --muted-foreground: 0 0% 60%; /* Xám nhạt vừa */
 
-    /* Accent: Biến thể sáng của Primary dark mới */
-    --accent: 210 55% 85%;
-    --accent-foreground: 210 10% 8%;
+    --accent: 190 50% 55%; /* Xanh cổ vịt sáng hơn cho dark mode */
+    --accent-foreground: 0 0% 10%; /* Đen/Xám rất đậm cho nền accent */
 
-    --destructive: 0 65% 65%;
+    --destructive: 0 65% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 215 10% 25%; /* Viền xám đậm */
-    --input: 215 10% 18%; /* Nền input tối hơn */
-    --ring: 210 50% 75%; /* Màu focus ring (dùng Primary dark mới) */
+    --border: 0 0% 25%; /* Xám đậm */
+    --input: 0 0% 16%; /* Xám đậm */
+    --ring: 190 50% 60%; /* Xanh cổ vịt sáng cho ring */
 
-    /* Sidebar - Đồng bộ dark mode */
-    --sidebar-background: 215 12% 8%;
-    --sidebar-foreground: 210 15% 90%;
-    --sidebar-primary: 210 50% 72%;
-    --sidebar-primary-foreground: 210 15% 15%;
-    --sidebar-accent: 38 50% 75%;
-    --sidebar-accent-foreground: 35 20% 12%;
-    --sidebar-border: 215 10% 20%;
-    --sidebar-ring: 210 50% 75%;
+    /* Sidebar - Dark Mode */
+    --sidebar-background: 0 0% 8%; /* Tối hơn background chính một chút */
+    --sidebar-foreground: 0 0% 92%;
+    --sidebar-primary: 0 0% 80%; /* Giống primary dark mode */
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: 190 50% 55%; /* Giống accent dark mode */
+    --sidebar-accent-foreground: 0 0% 10%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 190 50% 60%;
   }
 }
