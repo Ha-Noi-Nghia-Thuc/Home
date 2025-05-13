@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { EB_Garamond, Open_Sans } from "next/font/google";
+import { EB_Garamond, Open_Sans, Merriweather } from "next/font/google";
 import "./globals.css";
+import StoreProvider from "@/store/redux";
 
-const openSans = Open_Sans({
+const merriweather = Merriweather({
   subsets: ["latin", "vietnamese"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["300", "400", "700", "900"],
   style: ["normal", "italic"],
   display: "swap",
-  variable: "--font-open-sans",
+  variable: "--font-merriweather",
 });
 
 const ebGaramond = EB_Garamond({
@@ -31,11 +32,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi">
-      <body
-        className={`${openSans.variable} ${ebGaramond.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <StoreProvider>
+        <body
+          className={`${merriweather.variable} ${ebGaramond.variable} antialiased`}
+        >
+          {children}
+        </body>
+      </StoreProvider>
     </html>
   );
 }

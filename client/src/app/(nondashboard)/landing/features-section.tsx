@@ -48,7 +48,7 @@ const FeaturesSection = () => {
       icon: BookOpenCheck,
       title: "Lớp Học Khai Phóng",
       description:
-        "Nâng tầm tri thức và kỹ năng qua các lộ trình học tập đa dạng, từ nhập môn đến chuyên sâu,  được đồng hành và truyền cảm hứng bởi đội ngũ chuyên gia hàng đầu và nhà giáo uy tín, giàu tâm huyết, giúp bạn làm chủ kiến thức và ứng dụng hiệu quả vào thực tiễn.",
+        "Khám phá các lộ trình học tập đa dạng, từ nhập môn đến chuyên sâu, giúp bạn nâng tầm tri thức và kỹ năng. Nội dung học liệu được xây dựng với mục tiêu khai phóng, dễ tiếp cận, và chúng tôi luôn chào đón sự chung tay đóng góp chuyên môn từ cộng đồng để làm phong phú thêm khoá học.",
       cta: "Xem khóa học",
       link: "/courses",
       color: "bg-secondary/10",
@@ -59,9 +59,9 @@ const FeaturesSection = () => {
       icon: FileText,
       title: "Góc Nhìn Chuyên Sâu",
       description:
-        "Khám phá các bài viết chất lượng, những phân tích sâu sắc và góc nhìn đa chiều về văn hóa, giáo dục, khoa học và các xu hướng thời đại, được chia sẻ bởi các chuyên gia uy tín và chính cộng đồng Hà Nội Nghĩa Thục.",
+        "Nơi chia sẻ những bài viết, phân tích và góc nhìn đa chiều về văn hóa, giáo dục, khoa học và các xu hướng thời đại. Chúng tôi tin rằng mỗi cá nhân đều có những hiểu biết giá trị để đóng góp, làm phong phú thêm diễn đàn tri thức này cùng với những nội dung do Hà Nội Nghĩa Thục biên tập.",
       cta: "Đọc bài viết",
-      link: "/blog",
+      link: "/articles",
       color: "bg-accent/10",
       hoverColor: "bg-accent/15",
       iconColor: "text-accent",
@@ -102,7 +102,7 @@ const FeaturesSection = () => {
 
           <p className="mt-4 text-lg md:text-xl text-foreground/85">
             Tiếp nối di sản Đông Kinh Nghĩa Thục trên nền tảng số: Vì một cộng
-            đồng học tập không ngừng.
+            đồng học tập không ngừng, khai phóng và tiến bộ.
           </p>
 
           <div className="h-1 w-24 bg-accent mx-auto mt-8 rounded-full"></div>

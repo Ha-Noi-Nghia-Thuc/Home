@@ -27,7 +27,7 @@ const MissionSection = () => {
 
   return (
     <section
-      id="misson"
+      id="mission"
       ref={ref}
       className="py-20 md:py-28 lg:py-32 px-6 bg-background text-foreground overflow-hidden relative"
     >
@@ -63,11 +63,12 @@ const MissionSection = () => {
               <p className="text-base md:text-lg font-body text-foreground/85 leading-relaxed">
                 Hơn một thế kỷ trước, đối diện vận nước gian truân, Đông Kinh
                 Nghĩa Thục hiên ngang bừng sáng ngọn đuốc trí tuệ, khơi dậy khát
-                vọng canh tân mãnh liệt và tình yêu nước nồng nàn. Nơi những bậc
-                sĩ phu nặng lòng thời cuộc đã đồng lòng khai mở trường học, gieo
-                mầm tư tưởng tiến bộ, đặt những viên đá nền tảng cho công cuộc
-                chấn hưng dân trí, cổ vũ tinh thần thực học, dấn thân thực
-                nghiệp.
+                vọng canh tân mãnh liệt và tình yêu nước nồng nàn.
+                <br />
+                Đó là nơi những bậc sĩ phu nặng lòng thời cuộc đã đồng lòng khai
+                mở trường học, gieo mầm tư tưởng tiến bộ. Họ đã đặt những viên
+                đá nền tảng cho công cuộc chấn hưng dân trí, cổ vũ tinh thần
+                thực học, dấn thân thực nghiệp.
               </p>
             </div>
           </div>
@@ -92,11 +93,10 @@ const MissionSection = () => {
           </div>
         </motion.div>
 
-        {/* Call to action button */}
         <motion.div variants={itemVariants} className="mt-16 text-center">
-          <Link href="#">
+          <Link href="/about">
             <button className="inline-flex items-center gap-2 px-6 py-3 bg-muted hover:bg-muted/80 text-foreground font-medium rounded-md transition-all duration-300 group">
-              <span>Tìm hiểu thêm về lịch sử</span>
+              <span>Tìm hiểu về Đông Kinh Nghĩa Thục</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"

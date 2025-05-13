@@ -50,7 +50,7 @@ const HeroSection = () => {
       <div className="relative z-10 px-6 text-center max-w-4xl mx-auto">
         <motion.div {...fadeInY(0.2)}>
           <p className="text-accent font-heading font-medium tracking-wider text-lg md:text-xl mb-4">
-            Không gian tri thức Hà Nội Nghĩa Thục
+            Hà Nội Nghĩa Thục: Nơi chí học giao hòa.
           </p>
         </motion.div>
 
@@ -65,27 +65,31 @@ const HeroSection = () => {
           {...fadeInY(0.6)}
           className="text-lg md:text-xl text-neutral-200 leading-relaxed mb-10 max-w-3xl mx-auto"
         >
-          Kế thừa tinh thần khai trí của Đông Kinh Nghĩa Thục, Hà Nội Nghĩa Thục
-          kiến tạo một nền tảng học liệu mở, nơi cộng đồng cùng nhau học hỏi, sẻ
-          chia và lan tỏa tri thức Việt.
+          Tiếp nối ngọn lửa khai trí từ Đông Kinh Nghĩa Thục, Hà Nội Nghĩa Thục
+          mở ra một không gian học liệu hiện đại, nơi mỗi người chúng ta cùng
+          nhau học hỏi, sẻ chia và làm rạng danh kho tàng tri thức Việt.
         </motion.p>
 
         <motion.div
           {...fadeInY(0.8)}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
-          <Link href="#misson">
-            <Button
-              size="lg"
-              className="bg-accent text-accent-foreground font-semibold rounded-md hover:bg-accent/90 focus-visible:ring-ring group flex items-center gap-2 transition-all duration-300 ease-out shadow-lg hover:shadow-xl"
-            >
-              Khám phá di sản
-              <ArrowRight
-                size={18}
-                className="transform transition-transform duration-300 group-hover:translate-x-1"
-              />
-            </Button>
-          </Link>
+          <Button
+            size="lg"
+            onClick={() => {
+              const element = document.getElementById("mission");
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
+            className="bg-accent text-accent-foreground font-semibold rounded-md hover:bg-accent/90 focus-visible:ring-ring group flex items-center gap-2 transition-all duration-300 ease-out shadow-lg hover:shadow-xl"
+          >
+            Khám phá lý tưởng
+            <ArrowRight
+              size={18}
+              className="transform transition-transform duration-300 group-hover:translate-x-1"
+            />
+          </Button>
         </motion.div>
       </div>
 
@@ -93,7 +97,7 @@ const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 0.5 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 cursor-pointer"
+        className="absolute bottom-20 left-1/2 -translate-x-1/2 z-10 cursor-pointer"
         onClick={() =>
           window.scrollTo({
             top: window.innerHeight,

@@ -21,7 +21,7 @@ const Footer = () => {
       icon: faYoutube,
     },
     {
-      href: "mailto:info@hanoinghithuc.org",
+      href: "mailto:hanoinghiathuc@gmail.com",
       label: "Gửi Email",
       icon: faEnvelope,
     },

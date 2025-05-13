@@ -90,7 +90,7 @@ const config: Config = {
       fontFamily: {
         heading:
           'var(--font-eb-garamond), ui-serif, Georgia, Cambria, Times, "Times New Roman", serif',
-        body: 'var(--font-open-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+        body: 'var(--font-merriweather), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
       },
       borderRadius: {
         lg: "var(--radius)",

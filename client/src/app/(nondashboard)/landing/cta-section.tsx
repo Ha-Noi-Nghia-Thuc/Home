@@ -31,7 +31,6 @@ const CTASection = () => {
   return (
     <div
       ref={ref}
-      id="cta"
       className="relative py-24 md:py-32 overflow-hidden bg-neutral-950"
     >
       <div className="absolute inset-0">
@@ -63,7 +62,7 @@ const CTASection = () => {
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-neutral-50 mb-5 leading-tight">
               Khám phá kho tàng học liệu hoàn toàn miễn phí và phi lợi nhuận,
-              tiên phong cho cộng đồng Việt.
+              góp phần xây dựng bởi và vì cộng đồng Việt.
             </h2>
 
             <p className="text-neutral-200 text-lg mb-8 leading-relaxed">
@@ -97,8 +96,8 @@ const CTASection = () => {
             </h3>
 
             <p className="text-neutral-300 mb-6">
-              Gia nhập cộng đồng học tập đông đảo và tâm huyết, khám phá kho tài
-              liệu chất lượng và hoàn toàn miễn phí đang không ngừng được làm
+              Gia nhập cộng đồng học tập sôi nổi và tâm huyết, khám phá kho tài
+              liệu phong phú và hoàn toàn miễn phí đang không ngừng được làm
               giàu.
             </p>
 
@@ -108,7 +107,7 @@ const CTASection = () => {
                   <span className="w-2 h-2 rounded-full bg-accent"></span>
                 </div>
                 <span className="ml-3 text-neutral-200">
-                  Học liệu chất lượng cao
+                  Học liệu được tuyển chọn/biên soạn tâm huyết
                 </span>
               </li>
               <li className="flex items-start">
