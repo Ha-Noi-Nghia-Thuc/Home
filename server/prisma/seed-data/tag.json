@@ -1,0 +1,16 @@
+[
+  {
+    "id": "tag_1",
+    "name": "Prisma",
+    "slug": "prisma",
+    "createdAt": "2025-05-15T09:10:00Z",
+    "updatedAt": "2025-05-15T09:10:00Z"
+  },
+  {
+    "id": "tag_2",
+    "name": "API",
+    "slug": "api",
+    "createdAt": "2025-05-15T09:15:00Z",
+    "updatedAt": "2025-05-15T09:15:00Z"
+  }
+]

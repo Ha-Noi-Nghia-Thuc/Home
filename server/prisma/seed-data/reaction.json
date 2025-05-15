@@ -1,0 +1,18 @@
+[
+  {
+    "id": "reaction_1",
+    "type": "LIKE",
+    "userId": "user_2",
+    "postId": "post_1",
+    "commentId": null,
+    "createdAt": "2025-05-15T10:16:00Z"
+  },
+  {
+    "id": "reaction_2",
+    "type": "LOVE",
+    "userId": "user_2",
+    "postId": null,
+    "commentId": "comment_1",
+    "createdAt": "2025-05-15T10:17:00Z"
+  }
+]

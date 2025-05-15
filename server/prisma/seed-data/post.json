@@ -1,0 +1,28 @@
+[
+  {
+    "id": "post_1",
+    "title": "Introduction to Prisma",
+    "slug": "introduction-to-prisma",
+    "content": "This post explores the basics of Prisma, a powerful ORM for Node.js...",
+    "excerpt": "Learn the fundamentals of Prisma and how it simplifies database access.",
+    "coverImageUrl": "https://example.com/images/prisma.jpg",
+    "published": true,
+    "publishedAt": "2025-05-15T10:10:00Z",
+    "authorId": "user_1",
+    "createdAt": "2025-05-15T10:08:00Z",
+    "updatedAt": "2025-05-15T10:10:00Z"
+  },
+  {
+    "id": "post_2",
+    "title": "Building Scalable APIs",
+    "slug": "building-scalable-apis",
+    "content": "A guide to designing and building scalable APIs with modern tools...",
+    "excerpt": "Discover best practices for creating robust APIs.",
+    "coverImageUrl": "https://example.com/images/api.jpg",
+    "published": false,
+    "publishedAt": null,
+    "authorId": "user_1",
+    "createdAt": "2025-05-15T10:12:00Z",
+    "updatedAt": "2025-05-15T10:12:00Z"
+  }
+]

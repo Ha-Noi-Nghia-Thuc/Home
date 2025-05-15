@@ -1,0 +1,166 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  AUTHOR
+  ADMIN
+}
+
+enum ReactionType {
+  LIKE
+  LOVE
+  WOW
+  HAHA
+  SAD
+  ANGRY
+}
+
+model User {
+  id        String  @id @default(cuid())
+  cognitoId String  @unique
+  email     String  @unique
+  name      String?
+  avatarUrl String?
+  role      Role    @default(USER)
+
+  posts     Post[]     @relation("AuthoredPosts")
+  comments  Comment[]  @relation("UserComments")
+  reactions Reaction[] @relation("UserReactions")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Post {
+  id            String  @id @default(cuid())
+  title         String
+  slug          String  @unique
+  content       String
+  excerpt       String?
+  coverImageUrl String?
+
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+
+  authorId String
+  author   User   @relation("AuthoredPosts", fields: [authorId], references: [id], onDelete: Cascade) // Quan hệ với User
+
+  comments  Comment[]  @relation("PostComments")
+  reactions Reaction[] @relation("PostReactions")
+
+  categories PostCategory[]
+
+  tags PostTag[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("posts")
+}
+
+model Category {
+  id   String @id @default(cuid())
+  name String @unique
+  slug String @unique
+
+  posts PostCategory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("categories")
+}
+
+model Tag {
+  id   String @id @default(cuid())
+  name String @unique
+  slug String @unique
+
+  posts PostTag[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("tags")
+}
+
+model PostCategory {
+  postId     String
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade) // Nếu Post bị xóa, dòng này cũng xóa
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade) // Nếu Category bị xóa, dòng này cũng xóa
+
+  assignedAt DateTime @default(now())
+
+  @@id([postId, categoryId])
+  @@map("post_categories")
+}
+
+model PostTag {
+  postId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tagId  String
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  assignedAt DateTime @default(now())
+
+  @@id([postId, tagId])
+  @@map("post_tags")
+}
+
+model Comment {
+  id      String @id @default(cuid())
+  content String
+
+  postId String
+  post   Post   @relation("PostComments", fields: [postId], references: [id], onDelete: Cascade) // Quan hệ với Post
+
+  userId String
+  user   User   @relation("UserComments", fields: [userId], references: [id], onDelete: Cascade) // Quan hệ với User
+
+  parentId String?
+  parent   Comment?  @relation("ThreadedComments", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies  Comment[] @relation("ThreadedComments")
+
+  reactions Reaction[] @relation("CommentReactions")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("comments")
+}
+
+model Reaction {
+  id   String       @id @default(cuid())
+  type ReactionType
+
+  userId String
+  user   User   @relation("UserReactions", fields: [userId], references: [id], onDelete: Cascade)
+
+  postId String?
+  post   Post?   @relation("PostReactions", fields: [postId], references: [id], onDelete: Cascade)
+
+  commentId String?
+  comment   Comment? @relation("CommentReactions", fields: [commentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+  @@unique([userId, commentId])
+  @@map("reactions")
+}

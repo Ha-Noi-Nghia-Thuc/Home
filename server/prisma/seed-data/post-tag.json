@@ -1,0 +1,12 @@
+[
+  {
+    "postId": "post_1",
+    "tagId": "tag_1",
+    "assignedAt": "2025-05-15T10:10:00Z"
+  },
+  {
+    "postId": "post_2",
+    "tagId": "tag_2",
+    "assignedAt": "2025-05-15T10:12:00Z"
+  }
+]

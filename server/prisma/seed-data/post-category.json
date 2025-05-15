@@ -1,0 +1,17 @@
+[
+  {
+    "postId": "post_1",
+    "categoryId": "cat_1",
+    "assignedAt": "2025-05-15T10:10:00Z"
+  },
+  {
+    "postId": "post_1",
+    "categoryId": "cat_2",
+    "assignedAt": "2025-05-15T10:10:00Z"
+  },
+  {
+    "postId": "post_2",
+    "categoryId": "cat_2",
+    "assignedAt": "2025-05-15T10:12:00Z"
+  }
+]

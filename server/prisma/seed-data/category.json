@@ -1,0 +1,16 @@
+[
+  {
+    "id": "cat_1",
+    "name": "Technology",
+    "slug": "technology",
+    "createdAt": "2025-05-15T09:00:00Z",
+    "updatedAt": "2025-05-15T09:00:00Z"
+  },
+  {
+    "id": "cat_2",
+    "name": "Programming",
+    "slug": "programming",
+    "createdAt": "2025-05-15T09:05:00Z",
+    "updatedAt": "2025-05-15T09:05:00Z"
+  }
+]
