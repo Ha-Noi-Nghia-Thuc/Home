@@ -12,6 +12,14 @@ declare global {
   interface AppSidebarProps {
     userType: "ADMIN" | "AUTHOR" | "USER" | string;
   }
+
+  interface SettingsFormProps {
+    initialData: SettingsFormData;
+    onSubmit: (data: SettingsFormData) => Promise<void>;
+    userType: "ADMIN" | "AUTHOR" | "USER" | string;
+    onRequestAuthor?: () => Promise<void>;
+    isRequestingAuthor?: boolean;
+  }
 }
 
 export {};

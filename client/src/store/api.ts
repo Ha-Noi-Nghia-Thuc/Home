@@ -120,7 +120,29 @@ export const api = createApi({
           ? [{ type: "User", id: result.userInfo.id }]
           : ["User"],
     }),
+    requestAuthorRole: builder.mutation<any, void>({
+      query: () => ({
+        url: "/request-author",
+        method: "POST",
+      }),
+    }),
+    updateUserSettings: builder.mutation<
+      User,
+      { cognitoId: string } & Partial<User>
+    >({
+      query: ({ cognitoId, ...updateUser }) => ({
+        url: `/user/${cognitoId}`,
+        method: "PUT",
+        body: updateUser,
+      }),
+      invalidatesTags: (result, error, arg) =>
+        result ? [{ type: "User", id: result.id }] : ["User"],
+    }),
   }),
 });
 
-export const { useGetAuthUserQuery } = api;
+export const {
+  useGetAuthUserQuery,
+  useUpdateUserSettingsMutation,
+  useRequestAuthorRoleMutation,
+} = api;

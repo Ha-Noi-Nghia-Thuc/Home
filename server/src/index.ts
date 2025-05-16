@@ -7,7 +7,8 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import { authMiddleware } from "./middlewares/auth.middleware";
-import userRoutes from "./routes/user.route";
+import userRouter from "./routes/user.route";
+import roleRequestRouter from "./routes/role-request.route";
 
 const app = express();
 const API_PREFIX = "/api";
@@ -25,7 +26,8 @@ app.get("/", (req, res) => {
 });
 
 // User routes
-app.use(API_PREFIX + "/user", userRoutes);
+app.use(API_PREFIX + "/user", userRouter);
+app.use(API_PREFIX, roleRequestRouter);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

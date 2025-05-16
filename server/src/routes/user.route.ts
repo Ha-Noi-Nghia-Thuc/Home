@@ -1,10 +1,14 @@
 import express from "express";
-import { createUser, getUser } from "../controllers/user.controller";
-import { authMiddleware } from "../middlewares/auth.middleware";
+import {
+  createUser,
+  getUser,
+  updateUser,
+} from "../controllers/user.controller";
 
 const router = express.Router();
 
-router.get("/:cognitoId", authMiddleware(["USER", "AUTHOR", "ADMIN"]), getUser);
-router.post("/", authMiddleware(["USER", "AUTHOR", "ADMIN"]), createUser);
+router.get("/:cognitoId", getUser);
+router.put("/:cognitoId", updateUser);
+router.post("/", createUser);
 
 export default router;
