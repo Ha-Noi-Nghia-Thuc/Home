@@ -1,18 +1,26 @@
 [
   {
-    "id": "reaction_1",
-    "type": "LIKE",
-    "userId": "user_2",
-    "postId": "post_1",
+    "id": "reaction1_post1_cuid",
+    "type": "LOVE",
+    "userId": "user_learner1_cuid",
+    "postId": "post1_dknt_cuid",
     "commentId": null,
-    "createdAt": "2025-05-15T10:16:00Z"
+    "createdAt": "2025-02-02T10:05:00.000Z"
   },
   {
-    "id": "reaction_2",
-    "type": "LOVE",
-    "userId": "user_2",
+    "id": "reaction2_comment1_cuid",
+    "type": "LIKE",
+    "userId": "user_author_cuid",
     "postId": null,
-    "commentId": "comment_1",
-    "createdAt": "2025-05-15T10:17:00Z"
+    "commentId": "comment1_post1_cuid",
+    "createdAt": "2025-02-02T10:15:00.000Z"
+  },
+  {
+    "id": "reaction3_post2_cuid",
+    "type": "WOW",
+    "userId": "user_learner2_cuid",
+    "postId": "post2_thuc_hoc_cuid",
+    "commentId": null,
+    "createdAt": "2025-02-16T18:00:00.000Z"
   }
 ]

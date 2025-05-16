@@ -1,16 +1,23 @@
 [
   {
-    "id": "cat_1",
-    "name": "Technology",
-    "slug": "technology",
-    "createdAt": "2025-05-15T09:00:00Z",
-    "updatedAt": "2025-05-15T09:00:00Z"
+    "id": "cat_lich_su_cuid",
+    "name": "Lịch sử Việt Nam",
+    "slug": "lich-su-viet-nam",
+    "createdAt": "2025-01-01T09:00:00.000Z",
+    "updatedAt": "2025-01-01T09:00:00.000Z"
   },
   {
-    "id": "cat_2",
-    "name": "Programming",
-    "slug": "programming",
-    "createdAt": "2025-05-15T09:05:00Z",
-    "updatedAt": "2025-05-15T09:05:00Z"
+    "id": "cat_van_hoa_cuid",
+    "name": "Văn hóa Đông Á",
+    "slug": "van-hoa-dong-a",
+    "createdAt": "2025-01-02T09:00:00.000Z",
+    "updatedAt": "2025-01-02T09:00:00.000Z"
+  },
+  {
+    "id": "cat_giao_duc_cuid",
+    "name": "Giáo dục Khai phóng",
+    "slug": "giao-duc-khai-phong",
+    "createdAt": "2025-01-03T09:00:00.000Z",
+    "updatedAt": "2025-01-03T09:00:00.000Z"
   }
 ]

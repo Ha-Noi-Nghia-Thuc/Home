@@ -1,16 +1,23 @@
 [
   {
-    "id": "tag_1",
-    "name": "Prisma",
-    "slug": "prisma",
-    "createdAt": "2025-05-15T09:10:00Z",
-    "updatedAt": "2025-05-15T09:10:00Z"
+    "id": "tag_dknt_cuid",
+    "name": "Đông Kinh Nghĩa Thục",
+    "slug": "dong-kinh-nghia-thuc",
+    "createdAt": "2025-01-01T10:00:00.000Z",
+    "updatedAt": "2025-01-01T10:00:00.000Z"
   },
   {
-    "id": "tag_2",
-    "name": "API",
-    "slug": "api",
-    "createdAt": "2025-05-15T09:15:00Z",
-    "updatedAt": "2025-05-15T09:15:00Z"
+    "id": "tag_thuc_hoc_cuid",
+    "name": "Thực học",
+    "slug": "thuc-hoc",
+    "createdAt": "2025-01-02T10:00:00.000Z",
+    "updatedAt": "2025-01-02T10:00:00.000Z"
+  },
+  {
+    "id": "tag_canh_tan_cuid",
+    "name": "Canh tân Giáo dục",
+    "slug": "canh-tan-giao-duc",
+    "createdAt": "2025-01-03T10:00:00.000Z",
+    "updatedAt": "2025-01-03T10:00:00.000Z"
   }
 ]

@@ -1,17 +1,22 @@
 [
   {
-    "postId": "post_1",
-    "categoryId": "cat_1",
-    "assignedAt": "2025-05-15T10:10:00Z"
+    "postId": "post1_dknt_cuid",
+    "categoryId": "cat_lich_su_cuid",
+    "assignedAt": "2025-02-01T14:01:00.000Z"
   },
   {
-    "postId": "post_1",
-    "categoryId": "cat_2",
-    "assignedAt": "2025-05-15T10:10:00Z"
+    "postId": "post1_dknt_cuid",
+    "categoryId": "cat_giao_duc_cuid",
+    "assignedAt": "2025-02-01T14:01:00.000Z"
   },
   {
-    "postId": "post_2",
-    "categoryId": "cat_2",
-    "assignedAt": "2025-05-15T10:12:00Z"
+    "postId": "post2_thuc_hoc_cuid",
+    "categoryId": "cat_giao_duc_cuid",
+    "assignedAt": "2025-02-15T09:31:00.000Z"
+  },
+  {
+    "postId": "post3_van_hoa_cuid",
+    "categoryId": "cat_van_hoa_cuid",
+    "assignedAt": "2025-03-01T11:01:00.000Z"
   }
 ]

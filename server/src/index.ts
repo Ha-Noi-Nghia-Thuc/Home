@@ -1,13 +1,16 @@
 import express from "express";
 import dotenv from "dotenv";
+dotenv.config();
+
 import bodyParser from "body-parser";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
-
-dotenv.config();
+import { authMiddleware } from "./middlewares/auth.middleware";
+import userRoutes from "./routes/user.route";
 
 const app = express();
+const API_PREFIX = "/api";
 
 app.use(express.json());
 app.use(helmet());
@@ -20,6 +23,9 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("This is home route");
 });
+
+// User routes
+app.use(API_PREFIX + "/user", userRoutes);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

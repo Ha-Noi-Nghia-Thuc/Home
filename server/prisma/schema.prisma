@@ -1,8 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// This is your Prisma schema file. Learn more: https://pris.ly/d/prisma-schema
+// Ensure DATABASE_URL is set in .env (e.g., postgresql://user:password@localhost:5432/dbname)
 
 generator client {
   provider = "prisma-client-js"
@@ -28,6 +25,12 @@ enum ReactionType {
   ANGRY
 }
 
+enum RoleRequestStatus {
+  PENDING
+  APPROVED
+  DENIED
+}
+
 model User {
   id        String  @id @default(cuid())
   cognitoId String  @unique
@@ -36,9 +39,10 @@ model User {
   avatarUrl String?
   role      Role    @default(USER)
 
-  posts     Post[]     @relation("AuthoredPosts")
-  comments  Comment[]  @relation("UserComments")
-  reactions Reaction[] @relation("UserReactions")
+  posts        Post[]        @relation("AuthoredPosts")
+  comments     Comment[]     @relation("UserComments")
+  reactions    Reaction[]    @relation("UserReactions")
+  roleRequests RoleRequest[] @relation("UserRoleRequests")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -58,18 +62,18 @@ model Post {
   publishedAt DateTime?
 
   authorId String
-  author   User   @relation("AuthoredPosts", fields: [authorId], references: [id], onDelete: Cascade) // Quan hệ với User
+  author   User   @relation("AuthoredPosts", fields: [authorId], references: [id], onDelete: Cascade)
 
   comments  Comment[]  @relation("PostComments")
   reactions Reaction[] @relation("PostReactions")
 
   categories PostCategory[]
-
-  tags PostTag[]
+  tags       PostTag[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([slug])
   @@map("posts")
 }
 
@@ -101,9 +105,9 @@ model Tag {
 
 model PostCategory {
   postId     String
-  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade) // Nếu Post bị xóa, dòng này cũng xóa
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   categoryId String
-  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade) // Nếu Category bị xóa, dòng này cũng xóa
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   assignedAt DateTime @default(now())
 
@@ -128,13 +132,13 @@ model Comment {
   content String
 
   postId String
-  post   Post   @relation("PostComments", fields: [postId], references: [id], onDelete: Cascade) // Quan hệ với Post
+  post   Post   @relation("PostComments", fields: [postId], references: [id], onDelete: Cascade)
 
   userId String
-  user   User   @relation("UserComments", fields: [userId], references: [id], onDelete: Cascade) // Quan hệ với User
+  user   User   @relation("UserComments", fields: [userId], references: [id], onDelete: Cascade)
 
   parentId String?
-  parent   Comment?  @relation("ThreadedComments", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  parent   Comment?  @relation("ThreadedComments", fields: [parentId], references: [id], onDelete: SetNull)
   replies  Comment[] @relation("ThreadedComments")
 
   reactions Reaction[] @relation("CommentReactions")
@@ -142,6 +146,7 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([postId])
   @@map("comments")
 }
 
@@ -160,7 +165,20 @@ model Reaction {
 
   createdAt DateTime @default(now())
 
-  @@unique([userId, postId])
-  @@unique([userId, commentId])
+  @@unique([userId, postId], name: "user_post_reaction")
+  @@unique([userId, commentId], name: "user_comment_reaction")
   @@map("reactions")
+}
+
+model RoleRequest {
+  id            String            @id @default(cuid())
+  userId        String
+  user          User              @relation("UserRoleRequests", fields: [userId], references: [id], onDelete: Cascade)
+  requestedRole Role              @default(AUTHOR)
+  status        RoleRequestStatus @default(PENDING)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  @@index([userId])
+  @@map("role_requests")
 }

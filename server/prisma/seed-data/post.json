@@ -1,28 +1,41 @@
 [
   {
-    "id": "post_1",
-    "title": "Introduction to Prisma",
-    "slug": "introduction-to-prisma",
-    "content": "This post explores the basics of Prisma, a powerful ORM for Node.js...",
-    "excerpt": "Learn the fundamentals of Prisma and how it simplifies database access.",
-    "coverImageUrl": "https://example.com/images/prisma.jpg",
+    "id": "post1_dknt_cuid",
+    "title": "Đông Kinh Nghĩa Thục: Ngọn đuốc soi đường thế kỷ XX",
+    "slug": "dong-kinh-nghia-thuc-ngon-duoc-soi-duong",
+    "content": "Nội dung chi tiết về phong trào Đông Kinh Nghĩa Thục, vai trò và ảnh hưởng của nó đối với lịch sử giáo dục và tư tưởng Việt Nam đầu thế kỷ XX...",
+    "excerpt": "Tìm hiểu sâu về phong trào Đông Kinh Nghĩa Thục và những đóng góp to lớn.",
+    "coverImageUrl": "https://example.com/images/dknt.jpg",
     "published": true,
-    "publishedAt": "2025-05-15T10:10:00Z",
-    "authorId": "user_1",
-    "createdAt": "2025-05-15T10:08:00Z",
-    "updatedAt": "2025-05-15T10:10:00Z"
+    "publishedAt": "2025-02-01T14:00:00.000Z",
+    "authorId": "user_author_cuid",
+    "createdAt": "2025-02-01T10:00:00.000Z",
+    "updatedAt": "2025-02-01T14:00:00.000Z"
   },
   {
-    "id": "post_2",
-    "title": "Building Scalable APIs",
-    "slug": "building-scalable-apis",
-    "content": "A guide to designing and building scalable APIs with modern tools...",
-    "excerpt": "Discover best practices for creating robust APIs.",
-    "coverImageUrl": "https://example.com/images/api.jpg",
+    "id": "post2_thuc_hoc_cuid",
+    "title": "Tinh thần Thực học trong bối cảnh giáo dục hiện đại",
+    "slug": "tinh-than-thuc-hoc-giao-duc-hien-dai",
+    "content": "Phân tích ý nghĩa của 'thực học' - học đi đôi với hành, học để áp dụng - và làm thế nào để phát huy tinh thần này trong các chương trình giáo dục ngày nay...",
+    "excerpt": "Thực học là gì và tại sao nó quan trọng cho sự phát triển cá nhân và xã hội?",
+    "coverImageUrl": null,
+    "published": true,
+    "publishedAt": "2025-02-15T09:30:00.000Z",
+    "authorId": "user_author_cuid",
+    "createdAt": "2025-02-14T10:00:00.000Z",
+    "updatedAt": "2025-02-15T09:30:00.000Z"
+  },
+  {
+    "id": "post3_van_hoa_cuid",
+    "title": "Ảnh hưởng của văn hóa Đông Á đến tư duy người Việt",
+    "slug": "anh-huong-van-hoa-dong-a",
+    "content": "Bài viết khám phá các khía cạnh của văn hóa Đông Á đã định hình nên những nét đặc trưng trong tư duy, lối sống và các giá trị của người Việt Nam qua các thời kỳ lịch sử.",
+    "excerpt": "Một góc nhìn về sự giao thoa văn hóa và những tác động của nó đến bản sắc Việt.",
+    "coverImageUrl": "https://example.com/images/vanhoa_donga.jpg",
     "published": false,
     "publishedAt": null,
-    "authorId": "user_1",
-    "createdAt": "2025-05-15T10:12:00Z",
-    "updatedAt": "2025-05-15T10:12:00Z"
+    "authorId": "user_admin_cuid",
+    "createdAt": "2025-03-01T11:00:00.000Z",
+    "updatedAt": "2025-03-01T11:00:00.000Z"
   }
 ]

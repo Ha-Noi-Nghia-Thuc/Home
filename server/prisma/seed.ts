@@ -70,6 +70,7 @@ async function main() {
     "post-tag.json",
     "comment.json",
     "reaction.json",
+    "role-request.json",
   ];
 
   await deleteAllData(orderedModelFileNames);

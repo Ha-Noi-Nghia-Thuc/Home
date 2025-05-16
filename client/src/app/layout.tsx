@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { EB_Garamond, Open_Sans, Merriweather } from "next/font/google";
+import { EB_Garamond, Merriweather } from "next/font/google";
 import "./globals.css";
-import StoreProvider from "@/store/redux";
+import Providers from "@/providers";
 
 const merriweather = Merriweather({
   subsets: ["latin", "vietnamese"],
@@ -32,13 +32,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi">
-      <StoreProvider>
-        <body
-          className={`${merriweather.variable} ${ebGaramond.variable} antialiased`}
-        >
-          {children}
-        </body>
-      </StoreProvider>
+      <body
+        className={`${merriweather.variable} ${ebGaramond.variable} antialiased`}
+      >
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

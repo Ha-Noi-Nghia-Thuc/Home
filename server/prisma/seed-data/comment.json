@@ -1,20 +1,29 @@
 [
   {
-    "id": "comment_1",
-    "content": "Great article! Really helped me understand Prisma.",
-    "postId": "post_1",
-    "userId": "user_2",
+    "id": "comment1_post1_cuid",
+    "content": "Bài viết rất sâu sắc và cung cấp nhiều thông tin giá trị về Đông Kinh Nghĩa Thục. Cảm ơn tác giả!",
+    "postId": "post1_dknt_cuid",
+    "userId": "user_learner1_cuid",
     "parentId": null,
-    "createdAt": "2025-05-15T10:15:00Z",
-    "updatedAt": "2025-05-15T10:15:00Z"
+    "createdAt": "2025-02-02T10:00:00.000Z",
+    "updatedAt": "2025-02-02T10:00:00.000Z"
   },
   {
-    "id": "comment_2",
-    "content": "Thanks for the feedback! Glad I could help.",
-    "postId": "post_1",
-    "userId": "user_1",
-    "parentId": "comment_1",
-    "createdAt": "2025-05-15T10:20:00Z",
-    "updatedAt": "2025-05-15T10:20:00Z"
+    "id": "comment2_post1_reply_cuid",
+    "content": "Đồng ý với bạn, mình cũng thấy rất tâm đắc với những phân tích trong bài.",
+    "postId": "post1_dknt_cuid",
+    "userId": "user_learner2_cuid",
+    "parentId": "comment1_post1_cuid",
+    "createdAt": "2025-02-02T11:30:00.000Z",
+    "updatedAt": "2025-02-02T11:30:00.000Z"
+  },
+  {
+    "id": "comment3_post2_cuid",
+    "content": "Tinh thần thực học cần được nhân rộng hơn nữa trong giới trẻ. Bài viết hay!",
+    "postId": "post2_thuc_hoc_cuid",
+    "userId": "user_admin_cuid",
+    "parentId": null,
+    "createdAt": "2025-02-16T15:00:00.000Z",
+    "updatedAt": "2025-02-16T15:00:00.000Z"
   }
 ]

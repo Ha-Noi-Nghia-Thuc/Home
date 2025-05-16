@@ -1,12 +1,22 @@
 [
   {
-    "postId": "post_1",
-    "tagId": "tag_1",
-    "assignedAt": "2025-05-15T10:10:00Z"
+    "postId": "post1_dknt_cuid",
+    "tagId": "tag_dknt_cuid",
+    "assignedAt": "2025-02-01T14:02:00.000Z"
   },
   {
-    "postId": "post_2",
-    "tagId": "tag_2",
-    "assignedAt": "2025-05-15T10:12:00Z"
+    "postId": "post1_dknt_cuid",
+    "tagId": "tag_canh_tan_cuid",
+    "assignedAt": "2025-02-01T14:02:00.000Z"
+  },
+  {
+    "postId": "post2_thuc_hoc_cuid",
+    "tagId": "tag_thuc_hoc_cuid",
+    "assignedAt": "2025-02-15T09:32:00.000Z"
+  },
+  {
+    "postId": "post2_thuc_hoc_cuid",
+    "tagId": "tag_giao_duc_cuid",
+    "assignedAt": "2025-02-15T09:32:00.000Z"
   }
 ]

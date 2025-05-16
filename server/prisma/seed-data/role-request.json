@@ -1,0 +1,10 @@
+[
+  {
+    "id": "rolereq1_cuid",
+    "userId": "user_learner1_cuid",
+    "requestedRole": "AUTHOR",
+    "status": "PENDING",
+    "createdAt": "2025-03-01T17:00:00.000Z",
+    "updatedAt": "2025-03-01T17:00:00.000Z"
+  }
+]

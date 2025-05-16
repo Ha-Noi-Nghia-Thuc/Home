@@ -1,22 +1,42 @@
 [
   {
-    "id": "user_1",
-    "cognitoId": "cognito_123",
-    "email": "john.doe@example.com",
-    "name": "John Doe",
-    "avatarUrl": "https://example.com/avatars/john.jpg",
-    "role": "AUTHOR",
-    "createdAt": "2025-05-15T10:00:00Z",
-    "updatedAt": "2025-05-15T10:00:00Z"
+    "id": "user_admin_cuid",
+    "cognitoId": "cognito_admin_uuid_001",
+    "email": "admin@hanoinghiathuc.dev",
+    "name": "Quản Trị Viên Cao Cấp",
+    "avatarUrl": "https://example.com/avatars/admin.png",
+    "role": "ADMIN",
+    "createdAt": "2025-01-10T10:00:00.000Z",
+    "updatedAt": "2025-01-10T10:00:00.000Z"
   },
   {
-    "id": "user_2",
-    "cognitoId": "cognito_456",
-    "email": "jane.smith@example.com",
-    "name": "Jane Smith",
-    "avatarUrl": "https://example.com/avatars/jane.jpg",
+    "id": "user_author_cuid",
+    "cognitoId": "cognito_author_uuid_002",
+    "email": "tacgia@hanoinghiathuc.dev",
+    "name": "Tác Giả Tâm Huyết",
+    "avatarUrl": "https://example.com/avatars/author.png",
+    "role": "AUTHOR",
+    "createdAt": "2025-01-11T11:00:00.000Z",
+    "updatedAt": "2025-01-11T11:00:00.000Z"
+  },
+  {
+    "id": "user_learner1_cuid",
+    "cognitoId": "cognito_learner_uuid_003",
+    "email": "hocvien1@example.com",
+    "name": "Học Viên Chăm Chỉ",
+    "avatarUrl": "https://example.com/avatars/learner1.png",
     "role": "USER",
-    "createdAt": "2025-05-15T10:05:00Z",
-    "updatedAt": "2025-05-15T10:05:00Z"
+    "createdAt": "2025-01-12T12:00:00.000Z",
+    "updatedAt": "2025-01-12T12:00:00.000Z"
+  },
+  {
+    "id": "user_learner2_cuid",
+    "cognitoId": "cognito_learner_uuid_004",
+    "email": "hocvien2@example.com",
+    "name": "Người Tìm Tòi",
+    "avatarUrl": null,
+    "role": "USER",
+    "createdAt": "2025-01-13T13:00:00.000Z",
+    "updatedAt": "2025-01-13T13:00:00.000Z"
   }
 ]
