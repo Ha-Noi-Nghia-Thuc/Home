@@ -60,6 +60,7 @@ model Post {
 
   published   Boolean   @default(false)
   publishedAt DateTime?
+  featured    Boolean   @default(false)
 
   authorId String
   author   User   @relation("AuthoredPosts", fields: [authorId], references: [id], onDelete: Cascade)

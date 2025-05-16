@@ -1,35 +1,49 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  createApi,
+  fetchBaseQuery,
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
+} from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
 import { createNewUserInDatabase } from "@/lib/utils";
-import { User } from "@/types/prismaTypes";
+import { Post, User } from "@/types/prismaTypes";
 
-export interface AuthUserResponse {
-  cognitoInfo: any;
-  userInfo: User | undefined;
-  userRole: string | undefined;
-}
+// Custom async baseQuery to allow async token fetching
+const customBaseQuery: BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, api, extraOptions) => {
+  let headers: HeadersInit = {};
+  try {
+    const session = await fetchAuthSession();
+    const idToken = session.tokens?.idToken;
+    if (idToken) {
+      headers = {
+        ...headers,
+        Authorization: `Bearer ${idToken.toString()}`,
+      };
+    }
+  } catch (error) {
+    console.error("Error fetching auth session for headers:", error);
+  }
+
+  // Use fetchBaseQuery with the headers
+  const rawBaseQuery = fetchBaseQuery({
+    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+    headers,
+  });
+  return rawBaseQuery(args, api, extraOptions);
+};
 
 export const api = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
-    prepareHeaders: async (headers) => {
-      try {
-        const session = await fetchAuthSession();
-        const idToken = session.tokens?.idToken;
-        if (idToken) {
-          headers.set("Authorization", `Bearer ${idToken.toString()}`);
-        }
-      } catch (error) {
-        console.error("Error fetching auth session for headers:", error);
-      }
-      return headers;
-    },
-  }),
-  tagTypes: ["User"],
+  baseQuery: customBaseQuery,
+  tagTypes: ["User", "Post"],
   endpoints: (builder) => ({
     getAuthUser: builder.query<AuthUserResponse, void>({
-      queryFn: async (_, _queryApi, _extraOptions, fetchWithBQ) => {
+      async queryFn(_arg, _queryApi, _extraOptions, fetchWithBQ) {
         try {
           const cognitoAuthUser = await getCurrentUser();
           const session = await fetchAuthSession();
@@ -138,6 +152,10 @@ export const api = createApi({
       invalidatesTags: (result, error, arg) =>
         result ? [{ type: "User", id: result.id }] : ["User"],
     }),
+    getArticles: builder.query<Post[], void>({
+      query: () => "/article",
+      providesTags: ["Post"],
+    }),
   }),
 });
 
@@ -145,4 +163,5 @@ export const {
   useGetAuthUserQuery,
   useUpdateUserSettingsMutation,
   useRequestAuthorRoleMutation,
+  useGetArticlesQuery,
 } = api;

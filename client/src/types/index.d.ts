@@ -9,6 +9,12 @@ declare global {
     userRole: Role;
   }
 
+  interface AuthUserResponse {
+    cognitoInfo: any;
+    userInfo: User | undefined;
+    userRole: string | undefined;
+  }
+
   interface AppSidebarProps {
     userType: Role;
   }
@@ -16,9 +22,25 @@ declare global {
   interface SettingsFormProps {
     initialData: SettingsFormData;
     onSubmit: (data: SettingsFormData) => Promise<void>;
-    userType: "ADMIN" | "AUTHOR" | "USER" | string;
+    userType: Role;
     onRequestAuthor?: () => Promise<void>;
     isRequestingAuthor?: boolean;
+  }
+
+  interface ArticleCardProps {
+    article: {
+      id: string;
+      title: string;
+      excerpt?: string;
+      coverImageUrl?: string;
+      publishedAt?: string;
+      featured?: boolean;
+      author?: {
+        name?: string;
+        avatarUrl?: string;
+      };
+    };
+    onClick?: () => void;
   }
 }
 
