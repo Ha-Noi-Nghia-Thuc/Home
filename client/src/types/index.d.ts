@@ -10,7 +10,7 @@ declare global {
   }
 
   interface AppSidebarProps {
-    userType: "ADMIN" | "AUTHOR" | "USER" | string;
+    userType: Role;
   }
 
   interface SettingsFormProps {

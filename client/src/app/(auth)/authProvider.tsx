@@ -10,6 +10,7 @@ import {
 } from "@aws-amplify/ui-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import LoadingSpinner from "@/components/loading-spinner";
 
 // Validate environment variables
 const userPoolId = process.env.NEXT_PUBLIC_AWS_COGNITO_USER_POOL_ID;
@@ -53,8 +54,10 @@ const components = {
           <p className="text-muted-foreground">
             Chưa có tài khoản?{" "}
             <button
+              type="button"
               onClick={toSignUp}
               className="text-primary hover:underline bg-transparent border-none p-0"
+              aria-label="Chuyển sang đăng ký"
             >
               Đăng ký
             </button>
@@ -84,8 +87,10 @@ const components = {
           <p className="text-muted-foreground">
             Đã có tài khoản?{" "}
             <button
+              type="button"
               onClick={toSignIn}
               className="text-primary hover:underline bg-transparent border-none p-0"
+              aria-label="Chuyển sang đăng nhập"
             >
               Đăng nhập
             </button>
@@ -160,34 +165,35 @@ const Auth = ({ children }: { children: React.ReactNode }) => {
 
   const authPages = ["/sign-in", "/sign-up"];
   const isAuthPage = authPages.includes(pathname);
-  const isDashboardPage = pathname.startsWith("/user");
 
   useEffect(() => {
     if (user && isAuthPage) {
-      router.push("/");
+      router.replace("/"); // Use replace to prevent back navigation to auth page
     } else {
       setLoading(false);
     }
   }, [user, isAuthPage, router]);
 
   if (loading) {
-    return <div>Đang tải...</div>;
+    return <LoadingSpinner />;
   }
 
-  if (!isAuthPage && !isDashboardPage) {
+  if (!isAuthPage) {
     return <>{children}</>;
   }
 
   return (
-    <div className="h-full">
-      <Authenticator
-        initialState={pathname.includes("sign-up") ? "signUp" : "signIn"}
-        loginMechanisms={["email"]}
-        components={components}
-        formFields={formFields}
-      >
-        {() => <>{children}</>}
-      </Authenticator>
+    <div className="h-full flex items-center justify-center py-8">
+      <div className="w-full max-w-md bg-background rounded-xl shadow-lg p-6 border border-border">
+        <Authenticator
+          initialState={pathname.includes("sign-up") ? "signUp" : "signIn"}
+          loginMechanisms={["email"]}
+          components={components}
+          formFields={formFields}
+        >
+          {() => <>{children}</>}
+        </Authenticator>
+      </div>
     </div>
   );
 };

@@ -1,17 +1,17 @@
 import React from "react";
+import CTASection from "./cta-section";
+import FeaturesSection from "./features-section";
 import HeroSection from "./hero-section";
 import MissionSection from "./mission-section";
-import FeaturesSection from "./features-section";
-import CTASection from "./cta-section";
 
 const HomePage = () => {
   return (
-    <div>
+    <main>
       <HeroSection />
       <MissionSection />
       <FeaturesSection />
       <CTASection />
-    </div>
+    </main>
   );
 };
 

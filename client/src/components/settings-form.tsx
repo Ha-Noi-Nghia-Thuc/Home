@@ -1,10 +1,10 @@
 import { SettingsFormData, settingsSchema } from "@/lib/schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "./ui/form";
-import { Button } from "./ui/button";
 import { CustomFormField } from "./form-field";
+import { Button } from "./ui/button";
+import { Form } from "./ui/form";
 
 const SettingsForm = ({
   initialData,
@@ -32,22 +32,26 @@ const SettingsForm = ({
   };
 
   return (
-    <div className="pt-8 pb-5 px-8">
+    <div className="pt-8 pb-5 px-4 md:px-8">
       <div className="mb-5">
-        <h1 className="text-xl font-semibold">
-          {`${userType.charAt(0).toUpperCase() + userType.slice(1)} Settings`}
+        <h1 className="text-xl font-semibold text-foreground">
+          Cài đặt tài khoản
         </h1>
-        <p className="text-sm text-gray-500 mt-1">
-          Manage your account preferences and personal information
+        <p className="text-sm text-muted-foreground mt-1">
+          Quản lý thông tin cá nhân và tùy chỉnh tài khoản của bạn
         </p>
       </div>
-      <div className="bg-white rounded-xl p-6">
+      <div className="bg-background rounded-lg p-6 shadow border border-border">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
             className="space-y-6"
           >
-            <CustomFormField name="name" label="Name" disabled={!editMode} />
+            <CustomFormField
+              name="name"
+              label="Họ và tên"
+              disabled={!editMode}
+            />
             <CustomFormField
               name="email"
               label="Email"
@@ -56,38 +60,44 @@ const SettingsForm = ({
             />
             <CustomFormField
               name="avatarUrl"
-              label="Avatar URL"
+              label="Ảnh đại diện (URL)"
               type="text"
               disabled={!editMode}
             />
-            <CustomFormField name="role" label="Role" type="text" disabled />
+            <CustomFormField name="role" label="Vai trò" type="text" disabled />
 
             <div className="pt-4 flex flex-col sm:flex-row sm:justify-between gap-2">
               <div className="flex gap-2">
                 <Button
                   type="button"
+                  variant="outline"
                   onClick={toggleEditMode}
-                  className="bg-secondary-500 text-white hover:bg-secondary-600"
+                  className="min-w-[100px]"
                 >
-                  {editMode ? "Cancel" : "Edit"}
+                  {editMode ? "Hủy" : "Chỉnh sửa"}
                 </Button>
                 {editMode && (
                   <Button
                     type="submit"
-                    className="bg-primary-700 text-white hover:bg-primary-800"
+                    variant="default"
+                    className="min-w-[120px]"
                   >
-                    Save Changes
+                    Lưu thay đổi
                   </Button>
                 )}
               </div>
               {userType === "USER" && onRequestAuthor && (
                 <Button
                   type="button"
+                  variant="secondary"
                   onClick={onRequestAuthor}
-                  className="bg-yellow-600 text-white hover:bg-yellow-700"
                   disabled={isRequestingAuthor}
+                  aria-busy={isRequestingAuthor}
+                  className="min-w-[160px]"
                 >
-                  {isRequestingAuthor ? "Requesting..." : "Request Author Role"}
+                  {isRequestingAuthor
+                    ? "Đang gửi yêu cầu..."
+                    : "Yêu cầu quyền Tác giả"}
                 </Button>
               )}
             </div>

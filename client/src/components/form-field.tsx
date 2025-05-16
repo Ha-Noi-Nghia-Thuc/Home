@@ -4,6 +4,7 @@ import {
   FieldValues,
   useFormContext,
   useFieldArray,
+  Control,
 } from "react-hook-form";
 import {
   FormControl,
@@ -76,6 +77,10 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
 }) => {
   const { control } = useFormContext();
 
+  // Common input classes for consistency
+  const baseInputClass =
+    "border-input bg-background text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 rounded-md";
+
   const renderFormControl = (
     field: ControllerRenderProps<FieldValues, string>
   ) => {
@@ -86,7 +91,8 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
             placeholder={placeholder}
             {...field}
             rows={3}
-            className={`border-gray-200 p-4 ${inputClassName}`}
+            className={`${baseInputClass} ${inputClassName || ""}`}
+            disabled={disabled}
           />
         );
       case "select":
@@ -95,18 +101,19 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
             value={field.value || (initialValue as string)}
             defaultValue={field.value || (initialValue as string)}
             onValueChange={field.onChange}
+            disabled={disabled}
           >
             <SelectTrigger
-              className={`w-full border-gray-200 p-4 ${inputClassName}`}
+              className={`${baseInputClass} w-full ${inputClassName || ""}`}
             >
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
-            <SelectContent className="w-full border-gray-200 shadow">
+            <SelectContent className="w-full">
               {options?.map((option) => (
                 <SelectItem
                   key={option.value}
                   value={option.value}
-                  className={`cursor-pointer hover:!bg-gray-100 hover:!text-customgreys-darkGrey`}
+                  className="cursor-pointer"
                 >
                   {option.label}
                 </SelectItem>
@@ -121,7 +128,8 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
               checked={field.value}
               onCheckedChange={field.onChange}
               id={name}
-              className={`text-customgreys-dirtyGrey ${inputClassName}`}
+              className={inputClassName}
+              disabled={disabled}
             />
             <FormLabel htmlFor={name} className={labelClassName}>
               {label}
@@ -131,14 +139,16 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
       case "file":
         return (
           <FilePond
-            className={`${inputClassName}`}
+            className={inputClassName}
             onupdatefiles={(fileItems) => {
               const files = fileItems.map((fileItem) => fileItem.file);
               field.onChange(files);
             }}
-            allowMultiple={true}
-            labelIdle={`Drag & Drop your images or <span class="filepond--label-action">Browse</span>`}
+            allowMultiple={multiple}
+            labelIdle={`Kéo & thả ảnh hoặc <span class="filepond--label-action">Chọn tệp</span>`}
             credits={false}
+            acceptedFileTypes={accept ? [accept] : undefined}
+            disabled={disabled}
           />
         );
       case "number":
@@ -147,7 +157,7 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
             type="number"
             placeholder={placeholder}
             {...field}
-            className={`border-gray-200 p-4 ${inputClassName}`}
+            className={`${baseInputClass} ${inputClassName || ""}`}
             disabled={disabled}
           />
         );
@@ -158,6 +168,7 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
             control={control}
             placeholder={placeholder}
             inputClassName={inputClassName}
+            disabled={disabled}
           />
         );
       default:
@@ -166,7 +177,7 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
             type={type}
             placeholder={placeholder}
             {...field}
-            className={`border-gray-200 p-4 ${inputClassName}`}
+            className={`${baseInputClass} ${inputClassName || ""}`}
             disabled={disabled}
           />
         );
@@ -180,21 +191,23 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
       defaultValue={initialValue}
       render={({ field }) => (
         <FormItem
-          className={`${
-            type !== "switch" && "rounded-md"
-          } relative ${className}`}
+          className={`${type !== "switch" ? "rounded-md" : ""} relative ${
+            className || ""
+          }`}
         >
           {type !== "switch" && (
-            <div className="flex justify-between items-center">
-              <FormLabel className={`text-sm ${labelClassName}`}>
+            <div className="flex justify-between items-center mb-1">
+              <FormLabel className={`text-sm ${labelClassName || ""}`}>
                 {label}
               </FormLabel>
-
               {!disabled &&
                 isIcon &&
                 type !== "file" &&
                 type !== "multi-input" && (
-                  <Edit className="size-4 text-customgreys-dirtyGrey" />
+                  <Edit
+                    className="size-4 text-muted-foreground"
+                    aria-hidden="true"
+                  />
                 )}
             </div>
           )}
@@ -204,17 +217,19 @@ export const CustomFormField: React.FC<FormFieldProps> = ({
               value: field.value !== undefined ? field.value : initialValue,
             })}
           </FormControl>
-          <FormMessage className="text-red-400" />
+          <FormMessage className="text-destructive" />
         </FormItem>
       )}
     />
   );
 };
+
 interface MultiInputFieldProps {
   name: string;
-  control: any;
+  control: Control<FieldValues>;
   placeholder?: string;
   inputClassName?: string;
+  disabled?: boolean;
 }
 
 const MultiInputField: React.FC<MultiInputFieldProps> = ({
@@ -222,6 +237,7 @@ const MultiInputField: React.FC<MultiInputFieldProps> = ({
   control,
   placeholder,
   inputClassName,
+  disabled = false,
 }) => {
   const { fields, append, remove } = useFieldArray({
     control,
@@ -240,7 +256,8 @@ const MultiInputField: React.FC<MultiInputFieldProps> = ({
                 <Input
                   {...field}
                   placeholder={placeholder}
-                  className={`flex-1 border-none bg-customgreys-darkGrey p-4 ${inputClassName}`}
+                  className={`flex-1 ${inputClassName || ""}`}
+                  disabled={disabled}
                 />
               </FormControl>
             )}
@@ -250,7 +267,9 @@ const MultiInputField: React.FC<MultiInputFieldProps> = ({
             onClick={() => remove(index)}
             variant="ghost"
             size="icon"
-            className="text-customgreys-dirtyGrey"
+            className="text-muted-foreground"
+            aria-label="Xóa mục"
+            disabled={disabled}
           >
             <X className="w-4 h-4" />
           </Button>
@@ -261,10 +280,12 @@ const MultiInputField: React.FC<MultiInputFieldProps> = ({
         onClick={() => append("")}
         variant="outline"
         size="sm"
-        className="mt-2 text-customgreys-dirtyGrey"
+        className="mt-2 text-muted-foreground"
+        aria-label="Thêm mục"
+        disabled={disabled}
       >
         <Plus className="w-4 h-4 mr-2" />
-        Add Item
+        Thêm mục
       </Button>
     </div>
   );

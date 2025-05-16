@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useRef } from "react";
+import { Button } from "@/components/ui/button";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
+import React, { useRef } from "react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -94,8 +95,12 @@ const MissionSection = () => {
         </motion.div>
 
         <motion.div variants={itemVariants} className="mt-16 text-center">
-          <Link href="/about">
-            <button className="inline-flex items-center gap-2 px-6 py-3 bg-muted hover:bg-muted/80 text-foreground font-medium rounded-md transition-all duration-300 group">
+          <Link href="/about" passHref legacyBehavior>
+            <Button
+              type="button"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-muted hover:bg-muted/80 text-foreground font-medium rounded-md transition-all duration-300 group"
+              aria-label="Tìm hiểu về Đông Kinh Nghĩa Thục"
+            >
               <span>Tìm hiểu về Đông Kinh Nghĩa Thục</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -108,11 +113,13 @@ const MissionSection = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="transform transition-transform duration-300 group-hover:translate-x-1"
+                aria-hidden="true"
+                focusable="false"
               >
                 <path d="M5 12h14"></path>
                 <path d="m12 5 7 7-7 7"></path>
               </svg>
-            </button>
+            </Button>
           </Link>
         </motion.div>
       </motion.div>

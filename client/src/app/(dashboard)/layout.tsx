@@ -5,27 +5,43 @@ import Navbar from "@/components/navbar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { NAVBAR_HEIGHT } from "@/lib/constants";
 import { useGetAuthUserQuery } from "@/store/api";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "@/components/loading-spinner";
+import { Role } from "@/types/prismaTypes";
 
-const LoadingSpinner = () => (
-  <div className="flex items-center justify-center min-h-screen">
-    <p>Loading dashboard...</p>
-  </div>
-);
+function isRole(role: any): role is Role {
+  return role === "ADMIN" || role === "AUTHOR" || role === "USER";
+}
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { data: authUser, isLoading, isError } = useGetAuthUserQuery();
   const router = useRouter();
+  const [shouldRender, setShouldRender] = useState(true);
+
+  // Redirect if not authenticated or error
+  useEffect(() => {
+    if (
+      !isLoading &&
+      (isError || !authUser?.userInfo || !isRole(authUser?.userRole))
+    ) {
+      router.push("/sign-in");
+      setShouldRender(false);
+    } else {
+      setShouldRender(true);
+    }
+  }, [isLoading, isError, authUser, router]);
 
   if (isLoading) {
     return <LoadingSpinner />;
   }
 
-  if (isError || !authUser?.userInfo || !authUser?.userRole) {
-    React.useEffect(() => {
-      router.push("/sign-in");
-    }, [router]);
+  if (!shouldRender) {
+    return null;
+  }
+
+  // Only render if userRole is a valid Role
+  if (!isRole(authUser?.userRole)) {
     return null;
   }
 

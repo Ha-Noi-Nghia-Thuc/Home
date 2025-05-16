@@ -1,31 +1,30 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { NAVBAR_HEIGHT } from "@/lib/constants";
+import { motion } from "framer-motion";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { NAVBAR_HEIGHT } from "@/lib/constants";
-import { ArrowRight, ChevronDown } from "lucide-react";
+
+const fadeInY = (delay = 0, y = 20) => ({
+  initial: { opacity: 0, y: y },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.8, delay, ease: "easeOut" },
+});
 
 const HeroSection = () => {
   const [offsetY, setOffsetY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => setOffsetY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const fadeInY = (delay = 0, y = 20) => ({
-    initial: { opacity: 0, y: y },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.8, delay, ease: "easeOut" },
-  });
-
   return (
     <div
-      className="relative h-screen flex items-center justify-center overflow-hidden"
+      className="relative h-screen min-h-[500px] flex items-center justify-center overflow-hidden"
       style={{ paddingTop: `${NAVBAR_HEIGHT}px` }}
     >
       <div className="absolute inset-0">
@@ -35,13 +34,16 @@ const HeroSection = () => {
             y: offsetY * 0.2,
             scale: 1 + offsetY * 0.0003,
           }}
+          aria-hidden="true"
         >
           <Image
             src="/landing-hero.jpg"
-            alt="Khuê Văn Các - Biểu tượng của tri thức và văn hiến Việt Nam tại Văn Miếu - Quốc Tử Giám, Hà Nội"
+            alt=""
             fill
             className="object-cover object-center"
             priority
+            role="img"
+            aria-label="Khuê Văn Các - Biểu tượng của tri thức và văn hiến Việt Nam tại Văn Miếu - Quốc Tử Giám, Hà Nội"
           />
         </motion.div>
         <div className="absolute inset-0 bg-gradient-to-b from-neutral-950/60 via-neutral-950/75 to-neutral-950/90"></div>
@@ -50,7 +52,7 @@ const HeroSection = () => {
       <div className="relative z-10 px-6 text-center max-w-4xl mx-auto">
         <motion.div {...fadeInY(0.2)}>
           <p className="text-accent font-heading font-medium tracking-wider text-lg md:text-xl mb-4">
-            Hà Nội Nghĩa Thục: Nơi chí học giao hòa.
+            Hà Nội Nghĩa Thục: Tiếp Nối Văn Hiến, Khơi Dòng Tri Thức
           </p>
         </motion.div>
 
@@ -76,6 +78,7 @@ const HeroSection = () => {
         >
           <Button
             size="lg"
+            aria-label="Khám phá lý tưởng - cuộn xuống phần tiếp theo"
             onClick={() => {
               const element = document.getElementById("mission");
               if (element) {
@@ -93,11 +96,13 @@ const HeroSection = () => {
         </motion.div>
       </div>
 
-      <motion.div
+      <motion.button
+        type="button"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 0.5 }}
-        className="absolute bottom-20 left-1/2 -translate-x-1/2 z-10 cursor-pointer"
+        className="absolute bottom-20 left-1/2 -translate-x-1/2 z-10 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-full"
+        aria-label="Cuộn xuống để khám phá thêm"
         onClick={() =>
           window.scrollTo({
             top: window.innerHeight,
@@ -115,12 +120,15 @@ const HeroSection = () => {
           }}
           className="flex flex-col items-center gap-2"
         >
-          <span className="text-neutral-300 text-sm font-medium">
+          <span className="text-neutral-300 text-sm font-medium select-none">
             Khám phá thêm
           </span>
-          <ChevronDown size={24} className="text-accent" />
+          <ChevronDown
+            size={24}
+            className="text-accent transition-colors hover:text-accent/80"
+          />
         </motion.div>
-      </motion.div>
+      </motion.button>
     </div>
   );
 };

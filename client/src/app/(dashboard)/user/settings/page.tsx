@@ -1,13 +1,14 @@
 "use client";
 
+import LoadingSpinner from "@/components/loading-spinner";
 import SettingsForm from "@/components/settings-form";
+import { SettingsFormData } from "@/lib/schemas";
 import {
   useGetAuthUserQuery,
-  useUpdateUserSettingsMutation,
   useRequestAuthorRoleMutation,
+  useUpdateUserSettingsMutation,
 } from "@/store/api";
 import React, { useState } from "react";
-import { SettingsFormData } from "@/lib/schemas";
 
 const UserSettingsPage = () => {
   const { data: authUser, isLoading } = useGetAuthUserQuery();
@@ -22,11 +23,15 @@ const UserSettingsPage = () => {
   );
 
   if (isLoading) {
-    return <>Loading...</>;
+    return <LoadingSpinner />;
   }
 
   if (!authUser?.userInfo) {
-    return <>User data not found.</>;
+    return (
+      <div className="text-center text-destructive mt-8" role="alert">
+        Không tìm thấy thông tin người dùng.
+      </div>
+    );
   }
 
   const initialData: SettingsFormData = {
@@ -37,10 +42,19 @@ const UserSettingsPage = () => {
   };
 
   const handleSubmit = async (data: SettingsFormData) => {
-    await updateUser({
-      cognitoId: authUser.cognitoInfo.userId,
-      ...data,
-    });
+    try {
+      await updateUser({
+        cognitoId: authUser.cognitoInfo.userId,
+        ...data,
+      }).unwrap();
+      setAuthorRequestSuccess("Cập nhật thông tin thành công!");
+      setAuthorRequestError(null);
+    } catch (err: any) {
+      setAuthorRequestError(
+        err?.data?.message || err?.message || "Cập nhật thông tin thất bại."
+      );
+      setAuthorRequestSuccess(null);
+    }
   };
 
   const handleRequestAuthor = async () => {
@@ -48,10 +62,14 @@ const UserSettingsPage = () => {
     setAuthorRequestError(null);
     try {
       await requestAuthorRole().unwrap();
-      setAuthorRequestSuccess("Request to become an author sent successfully!");
+      setAuthorRequestSuccess(
+        "Yêu cầu trở thành Tác giả đã được gửi thành công!"
+      );
     } catch (err: any) {
       setAuthorRequestError(
-        err?.data?.message || err?.message || "Failed to send author request."
+        err?.data?.message ||
+          err?.message ||
+          "Gửi yêu cầu trở thành Tác giả thất bại."
       );
     }
   };
@@ -65,11 +83,17 @@ const UserSettingsPage = () => {
         onRequestAuthor={handleRequestAuthor}
         isRequestingAuthor={isRequestingAuthor}
       />
-      {authorRequestSuccess && (
-        <div className="text-green-600 mt-2">{authorRequestSuccess}</div>
-      )}
-      {authorRequestError && (
-        <div className="text-red-600 mt-2">{authorRequestError}</div>
+      {(authorRequestSuccess || authorRequestError) && (
+        <div
+          className={`mt-4 px-4 py-2 rounded-lg text-sm font-medium ${
+            authorRequestSuccess
+              ? "bg-green-100 text-green-700 border border-green-300"
+              : "bg-red-100 text-red-700 border border-red-300"
+          }`}
+          role="alert"
+        >
+          {authorRequestSuccess || authorRequestError}
+        </div>
       )}
     </div>
   );

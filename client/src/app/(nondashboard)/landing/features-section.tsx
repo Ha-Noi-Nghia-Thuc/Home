@@ -1,15 +1,10 @@
 "use client";
 
+import { clsx } from "clsx";
+import { motion, useInView } from "framer-motion";
+import { ArrowRight, BookOpenCheck, FileText, Users } from "lucide-react";
 import Link from "next/link";
 import React, { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import {
-  ArrowRight,
-  Search,
-  BookOpenCheck,
-  Users,
-  FileText,
-} from "lucide-react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -139,12 +134,27 @@ const FeatureCard = ({
   iconColor,
   hoverColor,
 }: Feature) => (
-  <Link href={link} className="block h-full group text-left">
+  <Link
+    href={link}
+    className={clsx(
+      "block h-full group text-left rounded-xl transition-shadow duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
+    )}
+    aria-label={`${cta}: ${title}`}
+  >
     <div className="flex flex-col h-full p-6 md:p-8 rounded-xl bg-card shadow-sm border border-border transition-all duration-300 group-hover:shadow-md group-hover:border-accent/30">
       <div
-        className={`${color} group-hover:${hoverColor} p-4 rounded-xl w-16 h-16 flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-105`}
+        className={clsx(
+          color,
+          "p-4 rounded-xl w-16 h-16 flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-105",
+          hoverColor && `group-hover:${hoverColor}`
+        )}
       >
-        <Icon className={`w-7 h-7 ${iconColor}`} strokeWidth={1.5} />
+        <Icon
+          className={clsx("w-7 h-7", iconColor)}
+          strokeWidth={1.5}
+          aria-hidden="true"
+          focusable="false"
+        />
       </div>
 
       <h3 className="text-xl font-heading font-semibold text-foreground mb-4">
@@ -160,6 +170,8 @@ const FeatureCard = ({
         <ArrowRight
           size={16}
           className="ml-1.5 transition-transform duration-300 group-hover:translate-x-1.5"
+          aria-hidden="true"
+          focusable="false"
         />
       </div>
     </div>

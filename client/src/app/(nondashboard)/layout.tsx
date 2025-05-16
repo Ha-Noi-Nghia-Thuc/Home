@@ -1,22 +1,24 @@
 "use client";
 
 import Footer from "@/components/footer";
+import LoadingSpinner from "@/components/loading-spinner";
 import Navbar from "@/components/navbar";
 import { NAVBAR_HEIGHT } from "@/lib/constants";
 import { useGetAuthUserQuery } from "@/store/api";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const NonashboardLayout = ({ children }: { children: React.ReactNode }) => {
+const NondashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { data: authUser, isLoading: authLoading } = useGetAuthUserQuery();
   const router = useRouter();
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (authUser) {
+    // Check for userInfo for more robust auth detection
+    if (authUser && authUser.userInfo) {
       if (pathname === "/") {
-        router.push("/user", { scroll: false });
+        router.replace("/user", { scroll: false });
       } else {
         setIsLoading(false);
       }
@@ -26,7 +28,8 @@ const NonashboardLayout = ({ children }: { children: React.ReactNode }) => {
   }, [authUser, router, pathname]);
 
   if (authLoading || isLoading) {
-    return <>Loading...</>;
+    // Replace with your app's spinner or skeleton if available
+    return <LoadingSpinner />;
   }
 
   return (
@@ -43,4 +46,4 @@ const NonashboardLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default NonashboardLayout;
+export default NondashboardLayout;

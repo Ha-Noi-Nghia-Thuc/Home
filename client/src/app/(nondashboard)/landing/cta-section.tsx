@@ -29,17 +29,19 @@ const CTASection = () => {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <div
+    <section
       ref={ref}
       className="relative py-24 md:py-32 overflow-hidden bg-neutral-950"
+      aria-labelledby="cta-section-title"
     >
       <div className="absolute inset-0">
         <Image
           src="/landing-call-to-action.png"
-          alt="Không gian đọc sách tại thư viện cổ kính, tượng trưng cho việc học tập và nghiên cứu."
+          alt=""
           fill
           className="object-cover object-center"
           loading="lazy"
+          aria-hidden="true"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-neutral-950/80 via-neutral-950/85 to-accent/10"></div>
       </div>
@@ -56,11 +58,19 @@ const CTASection = () => {
             className="max-w-2xl text-center md:text-left"
           >
             <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-accent/20 text-accent-foreground mb-5 backdrop-blur-sm">
-              <Sparkles size={16} className="mr-2 text-accent" />
+              <Sparkles
+                size={16}
+                className="mr-2 text-accent"
+                aria-hidden="true"
+                focusable="false"
+              />
               <span className="text-sm font-medium">Khai mở tâm trí</span>
             </div>
 
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-neutral-50 mb-5 leading-tight">
+            <h2
+              id="cta-section-title"
+              className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-neutral-50 mb-5 leading-tight"
+            >
               Khám phá kho tàng học liệu hoàn toàn miễn phí và phi lợi nhuận,
               góp phần xây dựng bởi và vì cộng đồng Việt.
             </h2>
@@ -76,12 +86,14 @@ const CTASection = () => {
             <div className="hidden md:block">
               <Link
                 href="/about"
-                className="inline-flex items-center text-accent hover:text-accent/90 font-medium transition-colors duration-300"
+                className="inline-flex items-center text-accent hover:text-accent/90 font-medium transition-colors duration-300 group focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none"
               >
                 Tìm hiểu thêm về dự án
                 <ArrowRight
                   size={16}
                   className="ml-2 transition-transform duration-300 group-hover:translate-x-1"
+                  aria-hidden="true"
+                  focusable="false"
                 />
               </Link>
             </div>
@@ -133,12 +145,15 @@ const CTASection = () => {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="w-full border-neutral-400/30 text-primary hover:bg-white/10 hover:text-white focus-visible:ring-accent transition-all duration-300 group"
+                  className="w-full border-neutral-400/30 text-primary hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-accent transition-all duration-300 group"
+                  aria-label="Đăng ký tài khoản"
                 >
                   Đăng Ký Ngay{" "}
                   <ArrowRight
                     size={16}
                     className="ml-1.5 transition-transform duration-300 group-hover:translate-x-1"
+                    aria-hidden="true"
+                    focusable="false"
                   />
                 </Button>
               </Link>
@@ -146,7 +161,7 @@ const CTASection = () => {
           </motion.div>
         </div>
       </motion.div>
-    </div>
+    </section>
   );
 };
 

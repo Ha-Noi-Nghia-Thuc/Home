@@ -134,7 +134,12 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-accent transition-colors duration-300 p-2 rounded-full hover:bg-accent/10"
                 >
-                  <FontAwesomeIcon icon={social.icon} className="h-5 w-5" />
+                  <FontAwesomeIcon
+                    icon={social.icon}
+                    className="h-5 w-5"
+                    aria-hidden="true"
+                    focusable="false"
+                  />
                 </a>
               ))}
             </div>
@@ -158,7 +163,8 @@ const Footer = () => {
             ))}
             <a
               href="#"
-              className="hover:text-accent hover:underline transition-colors duration-300"
+              aria-label="Lên đầu trang - Scroll to top"
+              className="hover:text-accent hover:underline transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               onClick={(e) => {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
