@@ -3,14 +3,16 @@ import { Request, Response } from "express";
 
 const prisma = new PrismaClient();
 
+// Gửi yêu cầu nâng cấp quyền lên AUTHOR
 export const requestAuthorRole = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
     const cognitoId = req.user?.id;
+    // Xác thực người dùng từ Cognito
     if (!cognitoId) {
-      res.status(403).json({ message: "User not authenticated correctly." });
+      res.status(403).json({ message: "Bạn chưa đăng nhập." });
       return;
     }
 
@@ -18,27 +20,35 @@ export const requestAuthorRole = async (
       where: { cognitoId },
     });
     if (!user) {
-      res.status(404).json({ message: "User not found." });
+      res.status(404).json({ message: "Không tìm thấy người dùng." });
       return;
     }
 
+    // Trường hợp người dùng đã là AUTHOR
     if (user.role === Role.AUTHOR) {
-      res.status(400).json({ message: "You are already an Author." });
-      return;
-    }
-
-    if (user.role === Role.ADMIN) {
-      res.status(400).json({ message: "Admins cannot request Author role." });
-      return;
-    }
-
-    if (user.role !== Role.USER) {
-      res.status(403).json({
-        message: "Only users with USER role can request to become an Author.",
+      res.status(400).json({
+        message: "Bạn đã có quyền Author.",
       });
       return;
     }
 
+    // Trường hợp ADMIN cố gắng gửi yêu cầu
+    if (user.role === Role.ADMIN) {
+      res.status(400).json({
+        message: "Admin không thể gửi yêu cầu trở thành Author.",
+      });
+      return;
+    }
+
+    // Chỉ cho phép USER gửi yêu cầu
+    if (user.role !== Role.USER) {
+      res.status(403).json({
+        message: "Chỉ người dùng có vai trò USER mới được gửi yêu cầu.",
+      });
+      return;
+    }
+
+    // Kiểm tra xem đã có yêu cầu nào tồn tại chưa
     const existingRequest = await prisma.roleRequest.findFirst({
       where: {
         userId: user.id,
@@ -49,20 +59,25 @@ export const requestAuthorRole = async (
       },
     });
     if (existingRequest) {
-      if (existingRequest.status === RoleRequestStatus.PENDING) {
+      const { status } = existingRequest;
+
+      if (status === RoleRequestStatus.PENDING) {
         res.status(409).json({
-          message: "You already have a pending request to become an Author.",
+          message: "Bạn đã gửi yêu cầu và đang chờ phê duyệt.",
         });
-      } else if (existingRequest.status === RoleRequestStatus.APPROVED) {
-        // Điều này không nên xảy ra nếu logic đồng bộ vai trò là chính xác, nhưng vẫn kiểm tra
-        res.status(409).json({
-          message:
-            "Your request to become an Author has already been approved.",
-        });
+        return;
       }
-      return;
+
+      if (status === RoleRequestStatus.APPROVED) {
+        // Có thể xảy ra nếu user chưa được cập nhật role chính thức
+        res.status(409).json({
+          message: "Yêu cầu của bạn đã được phê duyệt trước đó.",
+        });
+        return;
+      }
     }
 
+    // Tạo yêu cầu mới
     const newRoleRequest = await prisma.roleRequest.create({
       data: {
         userId: user.id,
@@ -73,14 +88,18 @@ export const requestAuthorRole = async (
 
     res.status(201).json({
       message:
-        "Request to become an Author submitted successfully. Please wait for admin approval.",
+        "Yêu cầu trở thành Author đã được gửi. Vui lòng chờ admin phê duyệt.",
       data: newRoleRequest,
     });
+    return;
   } catch (error: any) {
-    console.error("Controller: Error requesting author role:", error);
+    if (process.env.NODE_ENV !== "production") {
+      console.error("[ERROR] Lỗi khi gửi yêu cầu quyền Author:", error);
+    }
+
     res.status(500).json({
-      message: "Error submitting role request.",
-      error: error.message,
+      message: "Lỗi trong quá trình gửi yêu cầu.",
+      error: process.env.NODE_ENV !== "production" ? error.message : undefined,
     });
   }
 };

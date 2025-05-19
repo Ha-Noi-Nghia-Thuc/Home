@@ -3,10 +3,9 @@ import { PrismaClient, Prisma } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// Utility: Simple slugify (replace with more robust if needed)
+// tạo slug đơn giản từ tiêu đề bài viết
 function slugify(text: string): string {
   return text
-    .toString()
     .toLowerCase()
     .trim()
     .replace(/[\s\W-]+/g, "-")
