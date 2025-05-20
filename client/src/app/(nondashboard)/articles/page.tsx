@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import LoadingSpinner from "@/components/loading-spinner";
-import ArticleCard from "@/components/article-card";
-import FeaturedArticles from "@/components/featured-articles";
+import LoadingSpinner from "@/components/common/loading-spinner";
+import ArticleCard from "@/components/articles/article-card";
+import FeaturedArticles from "@/components/articles/featured-articles";
 import { useGetArticlesQuery } from "@/store/api";
 
 const FEATURED_COUNT = 3;

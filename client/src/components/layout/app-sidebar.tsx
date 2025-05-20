@@ -27,7 +27,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "./ui/sidebar";
+} from "../ui/sidebar";
 
 const SIDEBAR_CONTENT_PADDING_X = "px-3";
 const ICON_CONTAINER_WIDTH_PLUS_GAP = "ml-5";

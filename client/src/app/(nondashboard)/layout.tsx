@@ -1,8 +1,8 @@
 "use client";
 
-import Footer from "@/components/footer";
-import LoadingSpinner from "@/components/loading-spinner";
-import Navbar from "@/components/navbar";
+import Footer from "@/components/layout/footer";
+import LoadingSpinner from "@/components/common/loading-spinner";
+import Navbar from "@/components/layout/navbar";
 import { NAVBAR_HEIGHT } from "@/lib/constants";
 import { useGetAuthUserQuery } from "@/store/api";
 import { usePathname, useRouter } from "next/navigation";

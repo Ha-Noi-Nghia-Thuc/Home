@@ -1,6 +1,6 @@
 "use client";
 
-import LoadingSpinner from "@/components/loading-spinner";
+import LoadingSpinner from "@/components/common/loading-spinner";
 import SettingsForm from "@/components/settings-form";
 import { SettingsFormData } from "@/lib/schemas";
 import {

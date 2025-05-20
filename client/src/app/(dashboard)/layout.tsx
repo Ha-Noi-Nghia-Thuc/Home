@@ -1,13 +1,13 @@
 "use client";
 
-import AppSidebar from "@/components/app-sidebar";
-import Navbar from "@/components/navbar";
+import AppSidebar from "@/components/layout/app-sidebar";
+import Navbar from "@/components/layout/navbar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { NAVBAR_HEIGHT } from "@/lib/constants";
 import { useGetAuthUserQuery } from "@/store/api";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import LoadingSpinner from "@/components/loading-spinner";
+import LoadingSpinner from "@/components/common/loading-spinner";
 import { Role } from "@/types/prismaTypes";
 
 function isRole(role: any): role is Role {

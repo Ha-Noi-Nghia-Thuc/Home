@@ -10,7 +10,7 @@ import {
 } from "@aws-amplify/ui-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import LoadingSpinner from "@/components/loading-spinner";
+import LoadingSpinner from "@/components/common/loading-spinner";
 
 // Validate environment variables
 const userPoolId = process.env.NEXT_PUBLIC_AWS_COGNITO_USER_POOL_ID;

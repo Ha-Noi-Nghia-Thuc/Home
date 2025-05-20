@@ -1,7 +1,37 @@
+import { NavLink } from "./navbar";
 import { AuthUser } from "aws-amplify/auth";
 import { Role, User, Post, RoleRequest } from "./prismaTypes";
 
 declare global {
+  //=================================
+  // Navigation & Layout Types
+  //=================================
+  interface NavLink {
+    href: string;
+    label: string;
+  }
+
+  interface NavbarProps {
+    className?: string;
+  }
+
+  interface NavbarUserProps extends NavbarProps {
+    userInfo: {
+      data: {
+        name: string;
+        avatarUrl?: string;
+        userRole: "USER" | "AUTHOR" | "ADMIN";
+      };
+    };
+  }
+
+  interface NavbarGuestProps extends NavbarProps {}
+
+  interface UserDropdownProps {
+    userInfo: NavbarUserProps["userInfo"];
+    onSignOut: () => Promise<void>;
+  }
+
   // Define AppUser interface
   interface AppUser {
     cognitoInfo: any;
