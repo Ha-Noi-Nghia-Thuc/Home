@@ -3,8 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CustomFormField } from "./form-field";
-import { Button } from "./ui/button";
-import { Form } from "./ui/form";
+import { Form } from "../ui/form";
+import { Button } from "../ui/button";
 
 const SettingsForm = ({
   initialData,

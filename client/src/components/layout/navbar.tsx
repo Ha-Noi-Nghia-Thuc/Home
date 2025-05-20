@@ -105,7 +105,7 @@ const NavbarUser = ({ userInfo, className }: NavbarUserProps) => {
   }, []);
 
   const isDashboardPage = useMemo(
-    () => ["/users", "/admin"].some((prefix) => pathname.startsWith(prefix)),
+    () => ["/user", "/admin"].some((prefix) => pathname.startsWith(prefix)),
     [pathname]
   );
 
@@ -131,7 +131,7 @@ const NavbarUser = ({ userInfo, className }: NavbarUserProps) => {
               <SidebarTrigger
                 aria-label="Mở thanh bên"
                 className={cn(
-                  "p-2 rounded-md",
+                  "p-2 rounded-md mr-2",
                   "hover:bg-muted/80 hover:text-accent",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
                   "transition-all duration-300"

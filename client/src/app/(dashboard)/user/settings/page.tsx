@@ -1,7 +1,7 @@
 "use client";
 
 import LoadingSpinner from "@/components/common/loading-spinner";
-import SettingsForm from "@/components/settings-form";
+import SettingsForm from "@/components/forms/settings-form";
 import { SettingsFormData } from "@/lib/schemas";
 import {
   useGetAuthUserQuery,

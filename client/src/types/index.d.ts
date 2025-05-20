@@ -32,6 +32,11 @@ declare global {
     onSignOut: () => Promise<void>;
   }
 
+  interface AppSidebarProps {
+    userRole: "USER" | "AUTHOR" | "ADMIN";
+    isLoading?: boolean;
+  }
+
   // Define AppUser interface
   interface AppUser {
     cognitoInfo: any;
@@ -52,10 +57,6 @@ declare global {
     status: string;
     createdAt: string;
     updatedAt: string;
-  }
-
-  interface AppSidebarProps {
-    userType: Role;
   }
 
   interface SettingsFormProps {
