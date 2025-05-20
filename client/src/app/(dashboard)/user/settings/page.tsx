@@ -61,7 +61,7 @@ const UserSettingsPage = () => {
     setAuthorRequestSuccess(null);
     setAuthorRequestError(null);
     try {
-      await requestAuthorRole().unwrap();
+      await requestAuthorRole({ message: "Requesting author role" }).unwrap();
       setAuthorRequestSuccess(
         "Yêu cầu trở thành Tác giả đã được gửi thành công!"
       );

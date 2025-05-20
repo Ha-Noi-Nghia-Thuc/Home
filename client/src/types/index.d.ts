@@ -1,18 +1,27 @@
 import { AuthUser } from "aws-amplify/auth";
-import { Role, User } from "./prismaTypes";
+import { Role, User, Post, RoleRequest } from "./prismaTypes";
 
 declare global {
   // Define AppUser interface
   interface AppUser {
     cognitoInfo: any;
-    databaseInfo: User;
+    userInfo: User;
     userRole: Role;
   }
 
   interface AuthUserResponse {
     cognitoInfo: any;
-    userInfo: User | undefined;
-    userRole: string | undefined;
+    userInfo: User;
+    userRole: string;
+  }
+
+  interface RoleRequestResponse {
+    id: string;
+    userId: string;
+    roleRequested: string;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
   }
 
   interface AppSidebarProps {
@@ -25,6 +34,18 @@ declare global {
     userType: Role;
     onRequestAuthor?: () => Promise<void>;
     isRequestingAuthor?: boolean;
+    roleRequests?: RoleRequestResponse[];
+  }
+
+  interface ArticleFormData {
+    title: string;
+    content: string;
+    excerpt?: string;
+    coverImageUrl?: string;
+    published?: boolean;
+    categoryIds?: string[];
+    tagIds?: string[];
+    slug?: string;
   }
 
   interface ArticleCardProps {
@@ -39,6 +60,7 @@ declare global {
         name?: string;
         avatarUrl?: string;
       };
+      category?: string;
     };
     onClick?: () => void;
   }

@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import type { AuthTokens } from "aws-amplify/auth";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
 
 type AmplifyIdToken = AuthTokens["idToken"];
 
@@ -13,6 +15,32 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// Format date dưới dạng ngày/tháng/năm
+export function formatDate(date: Date | string) {
+  return format(new Date(date), "dd/MM/yyyy", { locale: vi });
+}
+
+// Format date với thời gian đầy đủ
+export function formatDateTime(date: Date | string) {
+  return format(new Date(date), "HH:mm - dd/MM/yyyy", { locale: vi });
+}
+
+// Cắt bớt nội dung text quá dài và thêm "..." vào cuối
+export function truncateText(text: string, maxLength: number) {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength) + "...";
+}
+
+// Tạo slug từ tiêu đề bài viết
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[\s\W-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+// Tạo người dùng mới trong database khi đăng nhập lần đầu
 export const createNewUserInDatabase = async (
   cognitoUser: CognitoUser,
   idToken: AmplifyIdToken,
@@ -39,7 +67,7 @@ export const createNewUserInDatabase = async (
 
     const avatarFromToken = idToken?.payload?.picture as string | undefined;
 
-    console.log("Utils: Attempting to create new user in DB with payload:", {
+    console.log("Utils: Đang tạo người dùng mới trong DB với thông tin:", {
       cognitoId: cognitoUser.userId,
       email: emailFromToken,
       role: userRole,
@@ -48,13 +76,12 @@ export const createNewUserInDatabase = async (
     });
 
     if (!cognitoUser.userId || !emailFromToken) {
-      console.error("Utils: Missing cognitoId or email for creating user.");
+      console.error("Utils: Thiếu cognitoId hoặc email để tạo người dùng.");
       return {
         error: {
           status: 400,
           data: {
-            message:
-              "Cognito ID and email are required to create a user profile.",
+            message: "Cần có Cognito ID và email để tạo hồ sơ người dùng.",
           },
         },
       };
@@ -73,24 +100,50 @@ export const createNewUserInDatabase = async (
     });
 
     if (response.error) {
-      console.error("Utils: API failed to create user:", response.error);
+      console.error("Utils: API không thể tạo người dùng:", response.error);
       return { error: response.error };
     }
 
-    console.log("Utils: User created successfully via API:", response.data);
+    console.log("Utils: Tạo người dùng thành công qua API:", response.data);
     return response;
   } catch (error: any) {
     console.error(
-      "Utils: Critical error in createNewUserInDatabase function:",
+      "Utils: Lỗi nghiêm trọng trong hàm createNewUserInDatabase:",
       error
     );
     return {
       error: {
         status: 500,
         data: {
-          message: error.message || "Client-side error during user creation.",
+          message: error.message || "Lỗi phía client khi tạo người dùng.",
         },
       },
     };
   }
 };
+
+// Định dạng số view/like thành dạng K, M nếu lớn
+export function formatNumber(num: number): string {
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(1) + "M";
+  }
+  if (num >= 1000) {
+    return (num / 1000).toFixed(1) + "K";
+  }
+  return num.toString();
+}
+
+// Tạo một ID duy nhất
+export function generateUniqueId(): string {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
+// Xử lý lỗi API
+export function handleApiError(error: any): string {
+  if (typeof error === "string") return error;
+
+  if (error?.data?.message) return error.data.message;
+  if (error?.message) return error.message;
+
+  return "Đã xảy ra lỗi. Vui lòng thử lại sau.";
+}

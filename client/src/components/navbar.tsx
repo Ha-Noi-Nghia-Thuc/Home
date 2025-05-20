@@ -21,7 +21,6 @@ import { SidebarTrigger } from "./ui/sidebar";
 
 const Navbar = () => {
   const { data: authUser } = useGetAuthUserQuery();
-  console.log(authUser);
   const router = useRouter();
   const pathname = usePathname();
 
