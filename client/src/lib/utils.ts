@@ -61,7 +61,7 @@ export const createNewUserInDatabase = async (
     }
 
     const response = await fetchWithBQ({
-      url: "/user",
+      url: "/users",
       method: "POST",
       body: {
         cognitoId: cognitoUser.userId,

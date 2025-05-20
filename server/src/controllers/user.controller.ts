@@ -1,38 +1,73 @@
+import { Prisma, Role } from "@prisma/client";
 import { Request, Response } from "express";
-import { Prisma, PrismaClient, Role } from "@prisma/client";
+import { z } from "zod";
+import prisma from "../lib/prisma";
+import {
+  handlePrismaError,
+  sendError,
+  sendSuccess,
+} from "../lib/response.util";
 
-const prisma = new PrismaClient();
+// Schema cho việc tạo người dùng
+export const createUserSchema = z.object({
+  cognitoId: z.string().min(1, "Cognito ID không được để trống"),
+  email: z.string().email("Email không hợp lệ"),
+  name: z.string().optional(),
+  role: z
+    .enum(["USER", "AUTHOR", "ADMIN"], {
+      errorMap: () => ({ message: "Vai trò không hợp lệ" }),
+    })
+    .optional(),
+  avatarUrl: z.string().url("URL avatar không hợp lệ").optional().nullable(),
+});
+
+// Schema cho việc cập nhật người dùng
+export const updateUserSchema = z.object({
+  name: z.string().optional(),
+  email: z.string().email("Email không hợp lệ").optional(),
+  avatarUrl: z.string().url("URL avatar không hợp lệ").optional().nullable(),
+  role: z
+    .enum(["USER", "AUTHOR", "ADMIN"], {
+      errorMap: () => ({ message: "Vai trò không hợp lệ" }),
+    })
+    .optional(),
+});
 
 // Lấy thông tin người dùng theo Cognito ID
 export const getUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const { cognitoId } = req.params;
     if (!cognitoId) {
-      res.status(400).json({ message: "Cognito ID là bắt buộc." });
+      sendError(res, { message: "Cognito ID là bắt buộc." });
       return;
     }
 
     const user = await prisma.user.findUnique({
       where: { cognitoId },
     });
+
     if (!user) {
       if (process.env.NODE_ENV !== "production") {
         console.warn(`[WARN] User không tồn tại với cognitoId: ${cognitoId}`);
       }
-      res.status(404).json({ message: "Không tìm thấy người dùng." });
+      sendError(res, { message: "Không tìm thấy người dùng." }, 404);
       return;
     }
 
-    res.json(user);
+    sendSuccess(res, { data: user });
   } catch (error: any) {
     if (process.env.NODE_ENV !== "production") {
       console.error("[ERROR] Lỗi khi lấy người dùng:", error);
     }
 
-    res.status(500).json({
-      message: "Đã xảy ra lỗi khi lấy người dùng.",
-      error: process.env.NODE_ENV !== "production" ? error.message : undefined,
-    });
+    sendError(
+      res,
+      {
+        message: "Đã xảy ra lỗi khi lấy người dùng.",
+        meta: { error: error.message },
+      },
+      500
+    );
   }
 };
 
@@ -43,22 +78,21 @@ export const createUser = async (
 ): Promise<void> => {
   try {
     const { cognitoId, name, email, role, avatarUrl } = req.body;
-    if (!cognitoId || !email) {
-      res.status(400).json({
-        message: "cognitoId và email là bắt buộc.",
-      });
-      return;
-    }
 
     // Kiểm tra cognitoId đã tồn tại chưa
     const existingUserByCognitoId = await prisma.user.findUnique({
       where: { cognitoId },
     });
+
     if (existingUserByCognitoId) {
-      res.status(409).json({
-        message: "Người dùng với cognitoId này đã tồn tại.",
-        data: existingUserByCognitoId,
-      });
+      sendSuccess(
+        res,
+        {
+          message: "Người dùng với cognitoId này đã tồn tại.",
+          data: existingUserByCognitoId,
+        },
+        200
+      );
       return;
     }
 
@@ -66,11 +100,16 @@ export const createUser = async (
     const existingUserByEmail = await prisma.user.findUnique({
       where: { email },
     });
+
     if (existingUserByEmail) {
-      res.status(409).json({
-        message: `Email ${email} đã được sử dụng.`,
-        data: existingUserByEmail,
-      });
+      sendError(
+        res,
+        {
+          message: `Email ${email} đã được sử dụng.`,
+          data: existingUserByEmail,
+        },
+        409
+      );
       return;
     }
 
@@ -100,30 +139,31 @@ export const createUser = async (
       },
     });
 
-    res.status(201).json(newUser);
+    sendSuccess(
+      res,
+      { message: "Tạo người dùng thành công", data: newUser },
+      201
+    );
   } catch (error: any) {
-    if (process.env.NODE_ENV !== "production") {
-      console.error("[ERROR] Lỗi khi tạo người dùng:", error);
-    }
-
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === "P2002"
-    ) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
       const target = error.meta?.target as string[] | string | undefined;
       const field = Array.isArray(target) ? target.join(", ") : target;
-      res.status(409).json({
-        message: field
-          ? `Trường ${field} đã tồn tại.`
-          : "Người dùng đã tồn tại hoặc xung đột với một trường duy nhất.",
-      });
-      return;
+
+      if (error.code === "P2002") {
+        sendError(
+          res,
+          {
+            message: field
+              ? `Trường ${field} đã tồn tại.`
+              : "Người dùng đã tồn tại hoặc xung đột với một trường duy nhất.",
+          },
+          409
+        );
+        return;
+      }
     }
 
-    res.status(500).json({
-      message: "Lỗi khi tạo người dùng.",
-      error: process.env.NODE_ENV !== "production" ? error.message : undefined,
-    });
+    handlePrismaError(res, error);
   }
 };
 
@@ -135,17 +175,14 @@ export const updateUser = async (
   try {
     const { cognitoId } = req.params;
     const { name, email, avatarUrl, role } = req.body;
-    if (!cognitoId) {
-      res.status(400).json({ message: "Cognito ID là bắt buộc." });
-      return;
-    }
 
     // Kiểm tra người dùng tồn tại
     const existingUser = await prisma.user.findUnique({
       where: { cognitoId },
     });
+
     if (!existingUser) {
-      res.status(404).json({ message: "Không tìm thấy người dùng." });
+      sendError(res, { message: "Không tìm thấy người dùng." }, 404);
       return;
     }
 
@@ -154,11 +191,16 @@ export const updateUser = async (
       const userWithEmail = await prisma.user.findUnique({
         where: { email },
       });
+
       if (userWithEmail) {
-        res.status(409).json({
-          message: `Email ${email} đã được sử dụng.`,
-          data: userWithEmail,
-        });
+        sendError(
+          res,
+          {
+            message: `Email ${email} đã được sử dụng.`,
+            data: userWithEmail,
+          },
+          409
+        );
         return;
       }
     }
@@ -187,29 +229,29 @@ export const updateUser = async (
       data: updateData,
     });
 
-    res.json(updatedUser);
-  } catch (error: any) {
-    if (process.env.NODE_ENV !== "production") {
-      console.error("[ERROR] Lỗi khi cập nhật người dùng:", error);
-    }
-
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      error.code === "P2002"
-    ) {
-      const target = error.meta?.target as string[] | string | undefined;
-      const field = Array.isArray(target) ? target.join(", ") : target;
-      res.status(409).json({
-        message: field
-          ? `Trường ${field} đã tồn tại.`
-          : "Người dùng đã tồn tại hoặc xung đột với một trường duy nhất.",
-      });
-      return;
-    }
-
-    res.status(500).json({
-      message: "Lỗi khi cập nhật người dùng.",
-      error: process.env.NODE_ENV !== "production" ? error.message : undefined,
+    sendSuccess(res, {
+      message: "Cập nhật người dùng thành công",
+      data: updatedUser,
     });
+  } catch (error: any) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        const target = error.meta?.target as string[] | string | undefined;
+        const field = Array.isArray(target) ? target.join(", ") : target;
+
+        sendError(
+          res,
+          {
+            message: field
+              ? `Trường ${field} đã tồn tại.`
+              : "Dữ liệu người dùng bị xung đột.",
+          },
+          409
+        );
+        return;
+      }
+    }
+
+    handlePrismaError(res, error);
   }
 };

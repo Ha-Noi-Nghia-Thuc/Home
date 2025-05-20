@@ -1,9 +1,39 @@
-import { Request, Response, NextFunction } from "express";
-import { PrismaClient, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { NextFunction, Request, Response } from "express";
+import { z } from "zod";
+import prisma from "../lib/prisma";
+import {
+  handlePrismaError,
+  sendError,
+  sendSuccess,
+} from "../lib/response.util";
 
-const prisma = new PrismaClient();
+// Schema xác thực cho việc tạo bài viết
+export const createArticleSchema = z.object({
+  title: z.string().min(5, "Tiêu đề phải có ít nhất 5 ký tự"),
+  content: z.string().min(10, "Nội dung phải có ít nhất 10 ký tự"),
+  excerpt: z.string().optional(),
+  coverImageUrl: z.string().url("URL ảnh bìa không hợp lệ").optional(),
+  authorId: z.string().min(1, "ID tác giả là bắt buộc"),
+  published: z.boolean().optional().default(false),
+  categoryIds: z.array(z.string()).optional(),
+  tagIds: z.array(z.string()).optional(),
+  slug: z.string().optional(),
+});
 
-// tạo slug đơn giản từ tiêu đề bài viết
+// Schema xác thực cho việc cập nhật bài viết
+export const updateArticleSchema = z.object({
+  title: z.string().min(5, "Tiêu đề phải có ít nhất 5 ký tự").optional(),
+  content: z.string().min(10, "Nội dung phải có ít nhất 10 ký tự").optional(),
+  excerpt: z.string().optional(),
+  coverImageUrl: z.string().url("URL ảnh bìa không hợp lệ").optional(),
+  published: z.boolean().optional(),
+  categoryIds: z.array(z.string()).optional(),
+  tagIds: z.array(z.string()).optional(),
+  slug: z.string().optional(),
+});
+
+// Hàm tạo slug từ tiêu đề bài viết
 function slugify(text: string): string {
   return text
     .toLowerCase()
@@ -12,12 +42,12 @@ function slugify(text: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-// GET /api/article - List all articles
+// Lấy tất cả bài viết
 export const getAllArticles = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const posts = await prisma.post.findMany({
       include: {
@@ -38,13 +68,20 @@ export const getAllArticles = async (
         : undefined,
     }));
 
-    res.json(mappedPosts);
-  } catch (err) {
-    next(err);
+    sendSuccess(res, { data: mappedPosts });
+  } catch (err: any) {
+    sendError(
+      res,
+      {
+        message: "Lỗi khi lấy danh sách bài viết",
+        meta: { error: err.message },
+      },
+      500
+    );
   }
 };
 
-// GET /api/article/:id - Get article by ID
+// Lấy bài viết theo ID
 export const getArticleById = async (
   req: Request,
   res: Response,
@@ -54,18 +91,46 @@ export const getArticleById = async (
     const id = req.params.id as string;
     const article = await prisma.post.findUnique({
       where: { id },
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            avatarUrl: true,
+          },
+        },
+        categories: {
+          include: {
+            category: true,
+          },
+        },
+        tags: {
+          include: {
+            tag: true,
+          },
+        },
+      },
     });
+
     if (!article) {
-      res.status(404).json({ error: "Article not found" });
+      sendError(res, { message: "Không tìm thấy bài viết" }, 404);
       return;
     }
-    res.json(article);
-  } catch (err) {
-    next(err);
+
+    sendSuccess(res, { data: article });
+  } catch (err: any) {
+    sendError(
+      res,
+      {
+        message: "Lỗi khi lấy thông tin bài viết",
+        meta: { error: err.message },
+      },
+      500
+    );
   }
 };
 
-// POST /api/article - Create an article
+// Tạo bài viết mới
 export const createArticle = async (
   req: Request,
   res: Response,
@@ -84,25 +149,20 @@ export const createArticle = async (
       slug: clientSlug,
     } = req.body;
 
-    if (!title || !content || !authorId) {
-      res.status(400).json({ error: "Missing required fields" });
-      return;
-    }
-
-    // Provide slug as required by Prisma
+    // Tạo slug từ tiêu đề nếu không cung cấp
     const slug =
       clientSlug && typeof clientSlug === "string" && clientSlug.length > 0
         ? clientSlug
         : slugify(title);
 
-    // Ensure slug is unique in DB
+    // Kiểm tra slug có trùng không
     const exists = await prisma.post.findUnique({ where: { slug } });
     if (exists) {
-      res.status(400).json({ error: "Slug already exists" });
+      sendError(res, { message: "Slug đã tồn tại" }, 400);
       return;
     }
 
-    // Build prisma data object
+    // Chuẩn bị dữ liệu cho Prisma
     const data: Prisma.PostCreateInput = {
       title,
       content,
@@ -133,21 +193,27 @@ export const createArticle = async (
     };
 
     const article = await prisma.post.create({ data });
-    res.status(201).json(article);
-  } catch (err) {
+    sendSuccess(
+      res,
+      { message: "Tạo bài viết thành công", data: article },
+      201
+    );
+  } catch (err: any) {
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
-      res.status(400).json({ error: err.message });
-      return;
+      if (err.code === "P2025") {
+        sendError(
+          res,
+          { message: "Tác giả hoặc danh mục/tag không tồn tại" },
+          400
+        );
+        return;
+      }
     }
-    if (err instanceof Error) {
-      res.status(500).json({ error: err.message });
-      return;
-    }
-    next(err);
+    handlePrismaError(res, err);
   }
 };
 
-// PUT /api/article/:id - Update an article
+// Cập nhật bài viết
 export const updateArticle = async (
   req: Request,
   res: Response,
@@ -166,81 +232,107 @@ export const updateArticle = async (
       slug: clientSlug,
     } = req.body;
 
-    // Check if article exists
+    // Kiểm tra bài viết tồn tại
     const existing = await prisma.post.findUnique({ where: { id } });
     if (!existing) {
-      res.status(404).json({ error: "Article not found" });
+      sendError(res, { message: "Không tìm thấy bài viết" }, 404);
       return;
     }
 
-    // Prevent slug collision (allow if it's the same article)
-    let slug = clientSlug;
-    if (typeof slug !== "string" || slug.length === 0) {
-      slug = title ? slugify(title) : existing.slug;
+    // Xử lý slug
+    let slug = existing.slug;
+    if (typeof clientSlug === "string" && clientSlug.length > 0) {
+      slug = clientSlug;
+    } else if (title && title !== existing.title) {
+      slug = slugify(title);
     }
-    if (slug && slug !== existing.slug) {
+
+    // Kiểm tra slug trùng
+    if (slug !== existing.slug) {
       const exists = await prisma.post.findUnique({ where: { slug } });
-      if (exists && exists.id !== existing.id) {
-        res.status(400).json({ error: "Slug already exists" });
+      if (exists && exists.id !== id) {
+        sendError(res, { message: "Slug đã tồn tại" }, 400);
         return;
       }
     }
 
-    // Prepare update data
+    // Chuẩn bị dữ liệu cập nhật
     const data: Prisma.PostUpdateInput = {
       ...(title && { title }),
       ...(content && { content }),
-      ...(excerpt && { excerpt }),
-      ...(coverImageUrl && { coverImageUrl }),
-      ...(typeof slug === "string" && slug.length > 0 && { slug }),
-      ...(published !== undefined
-        ? {
-            published: Boolean(published),
-            publishedAt: published ? new Date() : null,
-          }
-        : {}),
-      updatedAt: new Date(),
-      ...(categoryIds && Array.isArray(categoryIds)
-        ? {
-            categories: {
-              deleteMany: {},
-              create: categoryIds.map((categoryId: string) => ({
-                category: { connect: { id: categoryId } },
-              })),
-            },
-          }
-        : {}),
-      ...(tagIds && Array.isArray(tagIds)
-        ? {
-            tags: {
-              deleteMany: {},
-              create: tagIds.map((tagId: string) => ({
-                tag: { connect: { id: tagId } },
-              })),
-            },
-          }
-        : {}),
+      ...(excerpt !== undefined && { excerpt }),
+      ...(coverImageUrl !== undefined && { coverImageUrl }),
+      ...(slug && { slug }),
+      ...(published !== undefined && {
+        published: Boolean(published),
+        publishedAt: published ? new Date() : null,
+      }),
     };
 
+    // Xử lý danh mục nếu được cung cấp
+    if (categoryIds && Array.isArray(categoryIds)) {
+      // Xóa tất cả liên kết hiện tại
+      await prisma.postCategory.deleteMany({
+        where: { postId: id },
+      });
+
+      // Tạo liên kết mới
+      if (categoryIds.length > 0) {
+        await Promise.all(
+          categoryIds.map((categoryId) =>
+            prisma.postCategory.create({
+              data: {
+                post: { connect: { id } },
+                category: { connect: { id: categoryId } },
+              },
+            })
+          )
+        );
+      }
+    }
+
+    // Xử lý tags nếu được cung cấp
+    if (tagIds && Array.isArray(tagIds)) {
+      // Xóa tất cả liên kết hiện tại
+      await prisma.postTag.deleteMany({
+        where: { postId: id },
+      });
+
+      // Tạo liên kết mới
+      if (tagIds.length > 0) {
+        await Promise.all(
+          tagIds.map((tagId) =>
+            prisma.postTag.create({
+              data: {
+                post: { connect: { id } },
+                tag: { connect: { id: tagId } },
+              },
+            })
+          )
+        );
+      }
+    }
+
+    // Cập nhật bài viết
     const article = await prisma.post.update({
       where: { id },
       data,
+      include: {
+        categories: { include: { category: true } },
+        tags: { include: { tag: true } },
+      },
     });
-    res.json(article);
-  } catch (err) {
-    if (err instanceof Prisma.PrismaClientKnownRequestError) {
-      res.status(400).json({ error: err.message });
-      return;
-    }
-    if (err instanceof Error) {
-      res.status(500).json({ error: err.message });
-      return;
-    }
-    next(err);
+
+    sendSuccess(res, {
+      message: "Cập nhật bài viết thành công",
+      data: article,
+    });
+  } catch (err: any) {
+    handlePrismaError(res, err);
   }
 };
 
-// DELETE /api/article/:id - Remove an article
+// Xóa bài viết
 export const deleteArticle = async (
   req: Request,
   res: Response,
@@ -248,21 +340,19 @@ export const deleteArticle = async (
 ): Promise<void> => {
   try {
     const id = req.params.id as string;
+
+    // Kiểm tra bài viết tồn tại
+    const existing = await prisma.post.findUnique({ where: { id } });
+    if (!existing) {
+      sendError(res, { message: "Không tìm thấy bài viết" }, 404);
+      return;
+    }
+
+    // Xóa bài viết (Prisma sẽ tự động xóa các liên kết postCategory, postTag)
     await prisma.post.delete({ where: { id } });
-    res.status(204).send();
-  } catch (err) {
-    // Handle "not found" error code from Prisma
-    if (
-      err instanceof Prisma.PrismaClientKnownRequestError &&
-      err.code === "P2025"
-    ) {
-      res.status(404).json({ error: "Article not found" });
-      return;
-    }
-    if (err instanceof Error) {
-      res.status(500).json({ error: err.message });
-      return;
-    }
-    next(err);
+
+    sendSuccess(res, { message: "Đã xóa bài viết thành công" });
+  } catch (err: any) {
+    handlePrismaError(res, err);
   }
 };

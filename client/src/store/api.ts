@@ -63,7 +63,7 @@ export const api = createApi({
             | string
             | undefined;
 
-          let userDetailsResponse = await fetchWithBQ(`/user/${cognitoId}`);
+          let userDetailsResponse = await fetchWithBQ(`/users/${cognitoId}`);
           let dbUser: User | undefined = userDetailsResponse.data as
             | User
             | undefined;
@@ -145,7 +145,7 @@ export const api = createApi({
       { cognitoId: string } & Partial<User>
     >({
       query: ({ cognitoId, ...updateUser }) => ({
-        url: `/user/${cognitoId}`,
+        url: `/users/${cognitoId}`,
         method: "PUT",
         body: updateUser,
       }),

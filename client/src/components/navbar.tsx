@@ -21,6 +21,7 @@ import { SidebarTrigger } from "./ui/sidebar";
 
 const Navbar = () => {
   const { data: authUser } = useGetAuthUserQuery();
+  console.log(authUser);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -170,20 +171,20 @@ const Navbar = () => {
             <DropdownMenuTrigger className="flex items-center gap-2 focus:outline-none rounded-full p-1 hover:bg-muted transition-colors focus-visible:ring-2 focus-visible:ring-primary/70">
               <Avatar className="w-8 h-8">
                 <AvatarImage
-                  src={authUser.userInfo?.avatarUrl || undefined}
+                  src={authUser.userInfo?.data.avatarUrl || undefined}
                   alt={
                     authUser.userInfo?.name ||
                     `${authUser.userInfo.name}'s avatar`
                   }
                 />
                 <AvatarFallback className="bg-primary text-primary-foreground">
-                  {authUser.userInfo?.name
-                    ? authUser.userInfo.name[0].toUpperCase()
+                  {authUser.userInfo?.data.name
+                    ? authUser.userInfo.data.name[0].toUpperCase()
                     : "U"}
                 </AvatarFallback>
               </Avatar>
               <p className="text-sm font-medium text-foreground hidden md:block">
-                {authUser.userInfo?.name}
+                {authUser.userInfo?.data.name}
               </p>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -208,9 +209,9 @@ const Navbar = () => {
                 className="cursor-pointer focus:bg-muted focus:text-foreground py-2 px-3"
                 onClick={() =>
                   router.push(
-                    authUser.userInfo?.userType === "ADMIN"
+                    authUser.userInfo?.data.userRole === "ADMIN"
                       ? "/admin/settings"
-                      : authUser.userInfo?.userType === "AUTHOR"
+                      : authUser.userInfo?.data.userRole === "AUTHOR"
                       ? "/author/settings"
                       : "/user/settings"
                   )

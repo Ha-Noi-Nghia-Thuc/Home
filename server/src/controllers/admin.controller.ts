@@ -1,7 +1,17 @@
-import { Prisma, PrismaClient, RoleRequestStatus } from "@prisma/client";
+import { Prisma, RoleRequestStatus } from "@prisma/client";
 import { Request, Response } from "express";
+import prisma from "../lib/prisma";
+import {
+  sendSuccess,
+  sendError,
+  handlePrismaError,
+} from "../lib/response.util";
+import { z } from "zod";
 
-const prisma = new PrismaClient();
+// Schema xác thực tham số cho lọc yêu cầu
+export const roleRequestQuerySchema = z.object({
+  status: z.enum(["PENDING", "APPROVED", "DENIED"]).optional(),
+});
 
 // Lấy danh sách các yêu cầu nâng quyền, có thể lọc theo trạng thái
 export const getRoleRequests = async (
@@ -39,7 +49,7 @@ export const getRoleRequests = async (
       orderBy: { createdAt: "desc" },
     });
 
-    res.json(requests);
+    sendSuccess(res, { data: requests });
   } catch (error: any) {
     if (process.env.NODE_ENV !== "production") {
       console.error(
@@ -48,10 +58,14 @@ export const getRoleRequests = async (
       );
     }
 
-    res.status(500).json({
-      message: "Không thể lấy danh sách yêu cầu nâng quyền.",
-      error: process.env.NODE_ENV !== "production" ? error.message : undefined,
-    });
+    sendError(
+      res,
+      {
+        message: "Không thể lấy danh sách yêu cầu nâng quyền.",
+        meta: { error: error.message },
+      },
+      500
+    );
   }
 };
 
@@ -66,17 +80,24 @@ export const approveRoleRequest = async (
     const roleRequest = await prisma.roleRequest.findUnique({
       where: { id: requestId },
     });
+
     if (!roleRequest) {
-      res.status(404).json({ message: "Không tìm thấy yêu cầu." });
-      return;
-    }
-    if (roleRequest.status !== RoleRequestStatus.PENDING) {
-      res.status(400).json({
-        message: `Yêu cầu không ở trạng thái PENDING. Trạng thái hiện tại: ${roleRequest.status}.`,
-      });
+      sendError(res, { message: "Không tìm thấy yêu cầu." }, 404);
       return;
     }
 
+    if (roleRequest.status !== RoleRequestStatus.PENDING) {
+      sendError(
+        res,
+        {
+          message: `Yêu cầu không ở trạng thái PENDING. Trạng thái hiện tại: ${roleRequest.status}.`,
+        },
+        400
+      );
+      return;
+    }
+
+    // Thực hiện transaction để đảm bảo tính nhất quán dữ liệu
     const [updatedRequest, updatedUser] = await prisma.$transaction(
       async (tx) => {
         const req = await tx.roleRequest.update({
@@ -93,33 +114,32 @@ export const approveRoleRequest = async (
       }
     );
 
-    res.json({
+    sendSuccess(res, {
       message: "Phê duyệt quyền thành công.",
-      roleRequest: updatedRequest,
-      user: {
-        id: updatedUser.id,
-        role: updatedUser.role,
+      data: {
+        roleRequest: updatedRequest,
+        user: {
+          id: updatedUser.id,
+          role: updatedUser.role,
+        },
       },
     });
   } catch (error: any) {
-    if (process.env.NODE_ENV !== "production") {
-      console.error("Admin Controller: Lỗi khi phê duyệt yêu cầu:", error);
-    }
-
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === "P2025"
     ) {
-      res.status(404).json({
-        message: "Người dùng liên kết với yêu cầu không tồn tại.",
-      });
+      sendError(
+        res,
+        {
+          message: "Người dùng liên kết với yêu cầu không tồn tại.",
+        },
+        404
+      );
       return;
     }
 
-    res.status(500).json({
-      message: "Không thể phê duyệt yêu cầu nâng quyền.",
-      error: process.env.NODE_ENV !== "production" ? error.message : undefined,
-    });
+    handlePrismaError(res, error);
   }
 };
 
@@ -134,14 +154,20 @@ export const denyRoleRequest = async (
     const roleRequest = await prisma.roleRequest.findUnique({
       where: { id: requestId },
     });
+
     if (!roleRequest) {
-      res.status(404).json({ message: "Không tìm thấy yêu cầu." });
+      sendError(res, { message: "Không tìm thấy yêu cầu." }, 404);
       return;
     }
+
     if (roleRequest.status !== RoleRequestStatus.PENDING) {
-      res.status(400).json({
-        message: `Yêu cầu không ở trạng thái PENDING. Trạng thái hiện tại: ${roleRequest.status}.`,
-      });
+      sendError(
+        res,
+        {
+          message: `Yêu cầu không ở trạng thái PENDING. Trạng thái hiện tại: ${roleRequest.status}.`,
+        },
+        400
+      );
       return;
     }
 
@@ -150,18 +176,11 @@ export const denyRoleRequest = async (
       data: { status: RoleRequestStatus.DENIED },
     });
 
-    res.json({
+    sendSuccess(res, {
       message: "Từ chối yêu cầu thành công.",
-      roleRequest: updatedRequest,
+      data: { roleRequest: updatedRequest },
     });
   } catch (error: any) {
-    if (process.env.NODE_ENV !== "production") {
-      console.error("Admin Controller: Lỗi khi từ chối yêu cầu:", error);
-    }
-
-    res.status(500).json({
-      message: "Không thể từ chối yêu cầu nâng quyền.",
-      error: process.env.NODE_ENV !== "production" ? error.message : undefined,
-    });
+    handlePrismaError(res, error);
   }
 };

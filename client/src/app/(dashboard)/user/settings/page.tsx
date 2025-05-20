@@ -35,10 +35,10 @@ const UserSettingsPage = () => {
   }
 
   const initialData: SettingsFormData = {
-    name: authUser.userInfo.name || "",
-    email: authUser.userInfo.email || "",
-    avatarUrl: authUser.userInfo.avatarUrl || "",
-    role: authUser.userInfo.role || "USER",
+    name: authUser.userInfo.data.name || "",
+    email: authUser.userInfo.data.email || "",
+    avatarUrl: authUser.userInfo.data.avatarUrl || "",
+    role: authUser.userInfo.data.userRole || "USER",
   };
 
   const handleSubmit = async (data: SettingsFormData) => {
